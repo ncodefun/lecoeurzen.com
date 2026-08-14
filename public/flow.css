@@ -1,0 +1,112 @@
+[flow~='auto'],
+[flow],
+[flow~='row'],
+[flow~='row-rev'],
+[flow~='col'],
+[flow~='col-rev']{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	align-content: flex-start; /* when wrapped */
+}
+[flow~='content-center'] {
+	align-content: center;
+}
+[flow='iblk']	{display:inline-block}
+
+[flow~='row-rev']							{flex-direction: row-reverse}
+[flow~='col'],
+x-app.portrait [flow~='auto']			{flex-direction: column}
+[flow~='col-rev']							{flex-direction: column-reverse}
+[flow~='wrap']								{flex-wrap: wrap}
+[flow~='inherit']							{align-items: inherit ; flex-direction: inherit}
+[flow~='stretch']							{align-items: stretch}
+
+/** SIDE ALIGNEMENTS */
+[flow~='row'][flow~='top'],
+[flow~='row-rev'][flow~='top'],
+[flow~='col'][flow~='left'],
+[flow~='col-rev'][flow~='left']		{align-items: flex-start}
+
+[flow~='row'][flow~='bottom'],
+[flow~='row-rev'][flow~='bottom'],
+[flow~='col'][flow~='right'],
+[flow~='col-rev'][flow~='right']		{align-items: flex-end}
+
+[flow~='row'][flow~='baseline']		{align-items: baseline}
+
+
+[flow~='row'][flow~='left'],
+[flow~='row-rev'][flow~='right'],
+[flow~='col'][flow~='top'],
+[flow~='col-rev'][flow~='bottom']	{justify-content: flex-start}
+
+[flow~='row'][flow~='right'],
+[flow~='row-rev'][flow~='left'],
+[flow~='col'][flow~='bottom'],
+[flow~='col-rev'][flow~='top']		{justify-content: flex-end}
+
+/** JUSTIFY SPACING  */
+[flow~='space-between']					{justify-content: space-between}
+[flow~='space-around']					{justify-content: space-around}
+[flow~='space-evenly']					{justify-content: space-around; justify-content: space-evenly}
+
+[flow~='row'][flow~='full'],
+[flow~='row-rev'][flow~='full'] {
+  min-width: 100%;
+}
+[flow~='col'][flow~='full'],
+[flow~='col-rev'][flow~='full']{
+	min-height: 100%;
+}
+.grow,
+[flow~='grow'] { flex-grow: 1 }
+[flow~='inline'] { display: inline-flex }
+/* [self~='center'] { align-self: center } */
+/* [flow~='col'] [self~='bottom'] { margin-top: auto !important } */
+
+[flow~='gaps'], .gaps { gap: 1em }
+[flow~='gaps-medium'], .gaps { gap: .75em }
+[flow~='gaps-small'], .gaps-small { gap: .5em }
+[flow~='gaps-x-small'], .gaps-x-small { gap: .25em }
+[flow~='gaps-xx-small'], .gaps-xx-small { gap: 2px }
+[flow~='gaps-large'], .gaps-large { gap: 2em }
+[flow~='gaps-x-large'], .gaps-x-large { gap: 3em }
+
+[flow~='col'][flow~='block-gaps'],
+[flow~='row'][flow~='inline-gaps'] { column-gap: 1em }
+[flow~='col'][flow~='block-gaps-small'],
+[flow~='row'][flow~='inline-gaps-small'] { column-gap: .5em }
+[flow~='col'][flow~='block-gaps-x-small'],
+[flow~='row'][flow~='inline-gaps-x-small'] { column-gap: .25em }
+[flow~='col'][flow~='block-gaps-xx-small'],
+[flow~='row'][flow~='inline-gaps-xx-small'] { column-gap: 2px }
+[flow~='col'][flow~='block-gaps-large'],
+[flow~='row'][flow~='inline-gaps-large'] { column-gap: 2em }
+[flow~='col'][flow~='block-gaps-x-large'],
+[flow~='row'][flow~='inline-gaps-x-large'] { column-gap: 3em }
+
+[flow~='row'][flow~='block-gaps'],
+[flow~='col'][flow~='inline-gaps'] { row-gap: 1em }
+[flow~='row'][flow~='block-gaps-small'],
+[flow~='col'][flow~='inline-gaps-small'] { row-gap: .5em }
+[flow~='row'][flow~='block-gaps-x-small'],
+[flow~='col'][flow~='inline-gaps-x-small'] { row-gap: .25em }
+[flow~='row'][flow~='block-gaps-xx-small'],
+[flow~='col'][flow~='inline-gaps-xx-small'] { row-gap: 2px }
+[flow~='row'][flow~='block-gaps-large'],
+[flow~='col'][flow~='inline-gaps-large'] { row-gap: 2em }
+[flow~='row'][flow~='block-gaps-large'],
+[flow~='col'][flow~='inline-gaps-x-large'] { row-gap: 3em }
+
+.stretched,
+[flow~='stretched'] {
+	justify-self: stretch !important;
+}
+
+.rel { position: relative }
+.abs { position: absolute }
+
+/* With this there's no need to wrap sections in otherwise useless containers which only adds noise… Plus we can simply hide empty div for example on mobile / narrow screens and make a more compact flow, which would be impossible by using containers!
+*/
+[flow~='row'][flow~='divide'] > :is(div,p,h1,h2,h3,h4,h5,h6,section,article):not(.inline) { flex: 1 0 100% }

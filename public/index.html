@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang='fr'>
+<head>
+	<meta charset='UTF-8'>
+	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+	
+	<title>Le cœur Zen</title>
+	<meta name='description' content="De la noirceur à la lumière, de la tête jusqu'au cœur – transformer sa vision pour libérer son esprit, et sa magie!">
+	
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Averia+Libre:ital,wght@0,300;0,400;0,700;1,400&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+	
+	<link rel='stylesheet' href='./flow.css'>
+	<link rel='stylesheet' href='./styles.css'>
+	<script defer src='./app.js'></script>
+	<script defer src='https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js'></script>
+</head>
+<body flow='col top' x-data='zenApp()' x-init='init()' @hashchange.window='syncArticleFromRoute()' @popstate.window='syncArticleFromRoute()'>
+<main flow='col top grow' id='main'>
+	
+	<div id='logo' @click='toggleFullscreen'>		
+		<h1>
+			<small>Le cœur</small>
+			ZEN
+		</h1>
+		<hr id='zen-sep'>
+		<p id='tagline'>Être, <em>c'est tout</em></p>
+	</div>
+
+	<nav class='language-switcher' aria-label='Blog language'>
+		<button class='language-toggle fr' type='button' aria-controls='blog-fr' :class="{ 'is-active': isLanguageOpen('fr') }" :aria-pressed='isLanguageOpen("fr")' @click='toggleLanguage("fr")'>FR</button>
+		<button class='language-toggle en' type='button' aria-controls='blog-en' :class="{ 'is-active': isLanguageOpen('en') }" :aria-pressed='isLanguageOpen("en")' @click='toggleLanguage("en")'>EN</button>
+	</nav>
+
+	<div class='article-handle-wrap points-left' :class="{ 'is-visible': isLanguageOpen('fr') && hasSelectedArticle('fr') }" :aria-hidden='!(isLanguageOpen("fr") && hasSelectedArticle("fr"))'>
+		<button class='article-handle' type='button' aria-label='Fermer l’article et ouvrir le menu' :tabindex='isLanguageOpen("fr") && hasSelectedArticle("fr") ? 0 : -1' @click='closeArticle()'>
+			<svg aria-hidden='true' viewBox='0 0 12 20'>
+				<path d='M3 2.5 10 10l-7 7.5'/>
+			</svg>
+		</button>
+	</div>
+	<div class='article-handle-wrap points-right' :class="{ 'is-visible': isLanguageOpen('en') && hasSelectedArticle('en') }" :aria-hidden='!(isLanguageOpen("en") && hasSelectedArticle("en"))'>
+		<button class='article-handle' type='button' aria-label='Close article and open menu' :tabindex='isLanguageOpen("en") && hasSelectedArticle("en") ? 0 : -1' @click='closeArticle()'>
+			<svg aria-hidden='true' viewBox='0 0 12 20'>
+				<path d='M3 2.5 10 10l-7 7.5'/>
+			</svg>
+		</button>
+	</div>
+
+	<aside id='blog-fr' lang='fr' class='left abs' flow='row stretch' :class="{ 'is-open': isLanguageOpen('fr'), 'is-wide': hasSelectedArticle('fr') }" :aria-hidden='!isLanguageOpen("fr")' :inert='!isLanguageOpen("fr")'>
+		<!-- #links to french articles  -->
+		<div class='menu' :class="{ 'is-collapsed': collapsedMenus.fr }">
+			<header>
+				<span class='menu-title'>Articles</span>
+			</header>	
+			<ul>
+				<template x-for='(article, index) in articles.fr' :key='article.slug'>
+					<li>
+						<a :href='`#${article.slug}`' @click.prevent='selectArticle("fr", index)' x-text='article.title'></a>
+					</li>
+				</template>
+			</ul>
+		</div>
+		
+		<article x-ref='articleFr' :class="{ 'has-content': hasSelectedArticle('fr') }" @scroll='setArticleScrolled("fr", $event)'>
+			<div class='article-scroll-shadow' :class="{ 'is-visible': scrolledArticles.fr }" aria-hidden='true'></div>
+			<h2 x-text='articleHeading("fr")'></h2>
+			<div class='article-quote' x-show='!hasSelectedArticle("fr")' x-text='articleContent("fr")'></div>
+			<div class='article-content' x-show='hasSelectedArticle("fr")'>
+				<p class='article-info' x-text='articleContent("fr")'></p>
+				<template x-for='(paragraph, index) in testArticleParagraphs.fr' :key='index'>
+					<p x-text='paragraph'></p>
+				</template>
+			</div>
+		</article>
+	</aside>
+	
+		<!-- #links to english articles  -->
+	<aside id='blog-en' lang='en' class='right abs' flow='row stretch' :class="{ 'is-open': isLanguageOpen('en'), 'is-wide': hasSelectedArticle('en') }" :aria-hidden='!isLanguageOpen("en")' :inert='!isLanguageOpen("en")'>
+		<article x-ref='articleEn' :class="{ 'has-content': hasSelectedArticle('en') }" @scroll='setArticleScrolled("en", $event)'>
+			<div class='article-scroll-shadow' :class="{ 'is-visible': scrolledArticles.en }" aria-hidden='true'></div>
+			<h2 x-text='articleHeading("en")'></h2>
+			<div class='article-quote' x-show='!hasSelectedArticle("en")' x-text='articleContent("en")'></div>
+			<div class='article-content' x-show='hasSelectedArticle("en")'>
+				<p class='article-info' x-text='articleContent("en")'></p>
+				<template x-for='(paragraph, index) in testArticleParagraphs.en' :key='index'>
+					<p x-text='paragraph'></p>
+				</template>
+			</div>
+		</article>
+		<div class='menu' :class="{ 'is-collapsed': collapsedMenus.en }">
+			<header>
+				<span class='menu-title'>Articles</span>
+			</header>			
+			<ul>
+				<template x-for='(article, index) in articles.en' :key='article.slug'>
+					<li>
+						<a :href='`#${article.slug}`' @click.prevent='selectArticle("en", index)' x-text='article.title'></a>
+					</li>
+				</template>
+			</ul>
+		</div>
+	</aside>
+	
+	<footer flow='col'>
+		<img src='./meditation.png' alt='person sitting in meditation'>
+		<div>
+			<a href='mailto:contact@LeCoeurZen'>contact@LeCoeurZen.com</a>
+		</div>
+	</footer>
+</main>
+
+</body>
+</html>
