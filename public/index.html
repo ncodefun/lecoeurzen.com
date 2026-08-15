@@ -63,7 +63,7 @@
 			</ul>
 		</div>
 		
-		<article x-ref='articleFr' @scroll='setArticleScrolled("fr", $event)'>
+		<article x-ref='articleFr' x-init='$el.addEventListener("scroll", () => queueArticleScroll("fr", $el), { passive: true })'>
 			<div class='article-scroll-shadow' :class="{ 'is-visible': scrolledArticles.fr }" aria-hidden='true'></div>
 			<h2 :class="{ 'is-visible': hasSelectedArticle('fr') }" x-text='articleHeading("fr")'></h2>
 			<div class='article-quote' :class="{ 'is-visible': !hasSelectedArticle('fr') }" :aria-hidden="hasSelectedArticle('fr')" x-text='quoteContent("fr")'></div>
@@ -78,7 +78,7 @@
 	
 		<!-- #links to english articles  -->
 	<aside id='blog-en' lang='en' class='right abs' flow='row stretch' :class="{ 'is-open': isLanguageOpen('en'), 'is-wide': hasSelectedArticle('en') }" :aria-hidden='!isLanguageOpen("en")' :inert='!isLanguageOpen("en")'>
-		<article x-ref='articleEn' @scroll='setArticleScrolled("en", $event)'>
+		<article x-ref='articleEn' x-init='$el.addEventListener("scroll", () => queueArticleScroll("en", $el), { passive: true })'>
 			<div class='article-scroll-shadow' :class="{ 'is-visible': scrolledArticles.en }" aria-hidden='true'></div>
 			<h2 :class="{ 'is-visible': hasSelectedArticle('en') }" x-text='articleHeading("en")'></h2>
 			<div class='article-quote' :class="{ 'is-visible': !hasSelectedArticle('en') }" :aria-hidden="hasSelectedArticle('en')" x-text='quoteContent("en")'></div>

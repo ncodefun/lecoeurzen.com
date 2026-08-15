@@ -101,6 +101,8 @@ function fullscreenError(error) {
 }
 
 function zenApp() {
+  const pendingArticleScrolls = new Map();
+
   return {
     activeLanguage: '',
     articles: ARTICLES,
@@ -214,14 +216,25 @@ function zenApp() {
       this.resetArticleSelection();
     },
 
-    setArticleScrolled(language, event) {
-      const isScrolled = event.currentTarget.scrollTop > 8;
-      if (this.scrolledArticles[language] !== isScrolled) {
-        this.scrolledArticles[language] = isScrolled;
-      }
+    queueArticleScroll(language, article) {
+      if (pendingArticleScrolls.has(language)) return;
+
+      pendingArticleScrolls.set(language, window.requestAnimationFrame(() => {
+        pendingArticleScrolls.delete(language);
+        const isScrolled = article.scrollTop > 8;
+        if (this.scrolledArticles[language] !== isScrolled) {
+          this.scrolledArticles[language] = isScrolled;
+        }
+      }));
     },
 
     resetArticleScroll(language) {
+      const pendingScroll = pendingArticleScrolls.get(language);
+      if (pendingScroll) {
+        window.cancelAnimationFrame(pendingScroll);
+        pendingArticleScrolls.delete(language);
+      }
+
       this.scrolledArticles[language] = false;
       this.$nextTick(() => {
         const article = this.$refs[language === 'fr' ? 'articleFr' : 'articleEn'];

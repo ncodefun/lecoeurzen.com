@@ -772,6 +772,7 @@ main {
 	to { opacity: 1 }
 }
 #main aside :is(.menu ul, article) {
+	will-change: scroll-position;
 	scrollbar-color: #547f7975 transparent;
 	scrollbar-width: thin;
 }
