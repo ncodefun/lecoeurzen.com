@@ -102,6 +102,23 @@ function fullscreenError(error) {
 
 function zenApp() {
   const pendingArticleScrolls = new Map();
+  const languageResetTimers = new Map();
+
+  function cancelLanguageReset(language) {
+    const timer = languageResetTimers.get(language);
+    if (timer === undefined) return;
+
+    window.clearTimeout(timer);
+    languageResetTimers.delete(language);
+  }
+
+  function scheduleLanguageReset(language, callback) {
+    cancelLanguageReset(language);
+    languageResetTimers.set(language, window.setTimeout(() => {
+      languageResetTimers.delete(language);
+      callback();
+    }, 400));
+  }
 
   return {
     activeLanguage: '',
@@ -140,14 +157,15 @@ function zenApp() {
     toggleLanguage(language) {
       if (this.isLanguageOpen(language)) {
         this.activeLanguage = '';
-        window.setTimeout(() => this.resetLanguageState(language), 400);
+        scheduleLanguageReset(language, () => this.resetLanguageState(language));
         return;
       }
 
       const closingLanguage = this.activeLanguage;
       this.activeLanguage = language;
+      cancelLanguageReset(language);
       if (closingLanguage) {
-        window.setTimeout(() => this.resetLanguageState(closingLanguage), 400);
+        scheduleLanguageReset(closingLanguage, () => this.resetLanguageState(closingLanguage));
       }
     },
 
@@ -159,6 +177,7 @@ function zenApp() {
       const article = this.articles[language]?.[index];
       if (!article) return;
 
+      cancelLanguageReset(language);
       this.selectedArticleLanguage = language;
       this.selectedArticleIndex = index;
       this.articleHeadings[language] = article.title;
