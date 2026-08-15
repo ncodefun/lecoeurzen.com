@@ -103,10 +103,13 @@ function fullscreenError(error) {
 function zenApp() {
   return {
     activeLanguage: '',
-    collapsedMenus: initialPanelState(),
     articles: ARTICLES,
     testArticleParagraphs: TEST_ARTICLE_PARAGRAPHS,
     scrolledArticles: initialPanelState(),
+    articleHeadings: {
+      fr: 'Choisissez un article',
+      en: 'Choose an article',
+    },
     selectedArticleIndex: -1,
     selectedArticleLanguage: '',
     loadedArticle: null,
@@ -133,14 +136,17 @@ function zenApp() {
     },
 
     toggleLanguage(language) {
-      const isOpening = !this.isLanguageOpen(language);
-      if (isOpening) {
-        this.closeArticle();
-        this.activeLanguage = language;
+      if (this.isLanguageOpen(language)) {
+        this.activeLanguage = '';
+        window.setTimeout(() => this.resetLanguageState(language), 400);
         return;
       }
 
-      this.activeLanguage = '';
+      const closingLanguage = this.activeLanguage;
+      this.activeLanguage = language;
+      if (closingLanguage) {
+        window.setTimeout(() => this.resetLanguageState(closingLanguage), 400);
+      }
     },
 
     hasSelectedArticle(language) {
@@ -153,9 +159,8 @@ function zenApp() {
 
       this.selectedArticleLanguage = language;
       this.selectedArticleIndex = index;
+      this.articleHeadings[language] = article.title;
       this.activeLanguage = language;
-      this.collapsedMenus.fr = language === 'fr';
-      this.collapsedMenus.en = language === 'en';
       this.resetArticleScroll(language);
 
       if (updateRoute && window.location.hash !== `#${article.slug}`) {
@@ -165,7 +170,7 @@ function zenApp() {
       this.loadArticle(language, index);
     },
 
-    async loadArticle(language, index) {
+    loadArticle(language, index) {
       const article = this.articles[language]?.[index];
       if (!article) return;
 
@@ -192,6 +197,7 @@ function zenApp() {
       for (const language of Object.keys(LANGUAGE_NAMES)) {
         const index = this.articles[language].findIndex((article) => article.slug === slug);
         if (index >= 0) {
+          if (this.selectedArticleLanguage === language && this.selectedArticleIndex === index) return;
           this.selectArticle(language, index, false);
           return;
         }
@@ -209,7 +215,10 @@ function zenApp() {
     },
 
     setArticleScrolled(language, event) {
-      this.scrolledArticles[language] = event.currentTarget.scrollTop > 8;
+      const isScrolled = event.currentTarget.scrollTop > 8;
+      if (this.scrolledArticles[language] !== isScrolled) {
+        this.scrolledArticles[language] = isScrolled;
+      }
     },
 
     resetArticleScroll(language) {
@@ -223,23 +232,31 @@ function zenApp() {
     resetArticleSelection() {
       this.selectedArticleIndex = -1;
       this.selectedArticleLanguage = '';
-      this.loadedArticle = null;
-      this.collapsedMenus.fr = false;
-      this.collapsedMenus.en = false;
       this.resetArticleScroll('fr');
       this.resetArticleScroll('en');
     },
 
-    articleHeading(language) {
-      if (!this.hasSelectedArticle(language)) {
-        return language === 'fr' ? 'Choisissez un article' : 'Choose an article';
-      }
+    resetLanguageState(language) {
+      this.resetArticleScroll(language);
 
-      return this.articles[language][this.selectedArticleIndex].title;
+      if (this.selectedArticleLanguage !== language) return;
+
+      this.selectedArticleIndex = -1;
+      this.selectedArticleLanguage = '';
+      if (window.location.hash) {
+        window.history.pushState(null, '', `${window.location.pathname}${window.location.search}`);
+      }
+    },
+
+    articleHeading(language) {
+      return this.articleHeadings[language];
+    },
+
+    quoteContent(language) {
+      return DEFAULT_QUOTES[language];
     },
 
     articleContent(language) {
-      if (!this.hasSelectedArticle(language)) return DEFAULT_QUOTES[language];
       return this.loadedArticle?.language === language ? this.loadedArticle.content : '';
     },
   };

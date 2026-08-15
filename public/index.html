@@ -29,8 +29,8 @@
 	</div>
 
 	<nav class='language-switcher' aria-label='Blog language'>
-		<button class='language-toggle fr' type='button' aria-controls='blog-fr' :class="{ 'is-active': isLanguageOpen('fr') }" :aria-pressed='isLanguageOpen("fr")' @click='toggleLanguage("fr")'>FR</button>
-		<button class='language-toggle en' type='button' aria-controls='blog-en' :class="{ 'is-active': isLanguageOpen('en') }" :aria-pressed='isLanguageOpen("en")' @click='toggleLanguage("en")'>EN</button>
+		<button class='language-toggle fr' type='button' aria-controls='blog-fr' x-show="!activeLanguage || isLanguageOpen('fr')" :class="{ 'is-active': isLanguageOpen('fr') }" :aria-pressed='isLanguageOpen("fr")' @click='toggleLanguage("fr")'>FR</button>
+		<button class='language-toggle en' type='button' aria-controls='blog-en' x-show="!activeLanguage || isLanguageOpen('en')" :class="{ 'is-active': isLanguageOpen('en') }" :aria-pressed='isLanguageOpen("en")' @click='toggleLanguage("en")'>EN</button>
 	</nav>
 
 	<div class='article-handle-wrap points-left' :class="{ 'is-visible': isLanguageOpen('fr') && hasSelectedArticle('fr') }" :aria-hidden='!(isLanguageOpen("fr") && hasSelectedArticle("fr"))'>
@@ -50,7 +50,7 @@
 
 	<aside id='blog-fr' lang='fr' class='left abs' flow='row stretch' :class="{ 'is-open': isLanguageOpen('fr'), 'is-wide': hasSelectedArticle('fr') }" :aria-hidden='!isLanguageOpen("fr")' :inert='!isLanguageOpen("fr")'>
 		<!-- #links to french articles  -->
-		<div class='menu' :class="{ 'is-collapsed': collapsedMenus.fr }">
+		<div class='menu' :class="{ 'is-collapsed': hasSelectedArticle('fr') }">
 			<header>
 				<span class='menu-title'>Articles</span>
 			</header>	
@@ -63,11 +63,11 @@
 			</ul>
 		</div>
 		
-		<article x-ref='articleFr' :class="{ 'has-content': hasSelectedArticle('fr') }" @scroll='setArticleScrolled("fr", $event)'>
+		<article x-ref='articleFr' @scroll='setArticleScrolled("fr", $event)'>
 			<div class='article-scroll-shadow' :class="{ 'is-visible': scrolledArticles.fr }" aria-hidden='true'></div>
-			<h2 x-text='articleHeading("fr")'></h2>
-			<div class='article-quote' x-show='!hasSelectedArticle("fr")' x-text='articleContent("fr")'></div>
-			<div class='article-content' x-show='hasSelectedArticle("fr")'>
+			<h2 :class="{ 'is-visible': hasSelectedArticle('fr') }" x-text='articleHeading("fr")'></h2>
+			<div class='article-quote' :class="{ 'is-visible': !hasSelectedArticle('fr') }" :aria-hidden="hasSelectedArticle('fr')" x-text='quoteContent("fr")'></div>
+			<div class='article-content' :class="{ 'is-visible': hasSelectedArticle('fr') }" :aria-hidden="!hasSelectedArticle('fr')">
 				<p class='article-info' x-text='articleContent("fr")'></p>
 				<template x-for='(paragraph, index) in testArticleParagraphs.fr' :key='index'>
 					<p x-text='paragraph'></p>
@@ -78,18 +78,18 @@
 	
 		<!-- #links to english articles  -->
 	<aside id='blog-en' lang='en' class='right abs' flow='row stretch' :class="{ 'is-open': isLanguageOpen('en'), 'is-wide': hasSelectedArticle('en') }" :aria-hidden='!isLanguageOpen("en")' :inert='!isLanguageOpen("en")'>
-		<article x-ref='articleEn' :class="{ 'has-content': hasSelectedArticle('en') }" @scroll='setArticleScrolled("en", $event)'>
+		<article x-ref='articleEn' @scroll='setArticleScrolled("en", $event)'>
 			<div class='article-scroll-shadow' :class="{ 'is-visible': scrolledArticles.en }" aria-hidden='true'></div>
-			<h2 x-text='articleHeading("en")'></h2>
-			<div class='article-quote' x-show='!hasSelectedArticle("en")' x-text='articleContent("en")'></div>
-			<div class='article-content' x-show='hasSelectedArticle("en")'>
+			<h2 :class="{ 'is-visible': hasSelectedArticle('en') }" x-text='articleHeading("en")'></h2>
+			<div class='article-quote' :class="{ 'is-visible': !hasSelectedArticle('en') }" :aria-hidden="hasSelectedArticle('en')" x-text='quoteContent("en")'></div>
+			<div class='article-content' :class="{ 'is-visible': hasSelectedArticle('en') }" :aria-hidden="!hasSelectedArticle('en')">
 				<p class='article-info' x-text='articleContent("en")'></p>
 				<template x-for='(paragraph, index) in testArticleParagraphs.en' :key='index'>
 					<p x-text='paragraph'></p>
 				</template>
 			</div>
 		</article>
-		<div class='menu' :class="{ 'is-collapsed': collapsedMenus.en }">
+		<div class='menu' :class="{ 'is-collapsed': hasSelectedArticle('en') }">
 			<header>
 				<span class='menu-title'>Articles</span>
 			</header>			
@@ -103,12 +103,17 @@
 		</div>
 	</aside>
 	
+	
 	<footer flow='col'>
+		<div id='egg' class='abs'></div>
 		<img src='./meditation.png' alt='person sitting in meditation'>
 		<div>
 			<a href='mailto:contact@LeCoeurZen'>contact@LeCoeurZen.com</a>
 		</div>
 	</footer>
+	<div id='night-and-day' class='abs bottom'>
+		<img src='./night-and-day.png' alt='Night and Day'>
+	</div>
 </main>
 
 </body>
