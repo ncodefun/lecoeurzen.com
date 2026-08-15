@@ -628,7 +628,7 @@ main {
 		}
 		&.is-collapsed {
 			flex: 0 0 var(--menu-collapsed-width);
-			
+			cursor: pointer;
 			header { background-color: transparent }
 
 			/* .menu-toggle {

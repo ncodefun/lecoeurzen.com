@@ -50,7 +50,7 @@
 
 	<aside id='blog-fr' lang='fr' class='left abs' flow='row stretch' :class="{ 'is-open': isLanguageOpen('fr'), 'is-wide': hasSelectedArticle('fr') }" :aria-hidden='!isLanguageOpen("fr")' :inert='!isLanguageOpen("fr")'>
 		<!-- #links to french articles  -->
-		<div class='menu' :class="{ 'is-collapsed': hasSelectedArticle('fr') }">
+		<div class='menu' :class="{ 'is-collapsed': hasSelectedArticle('fr') }" @click.capture="hasSelectedArticle('fr') && closeArticle()">
 			<header>
 				<span class='menu-title'>Articles</span>
 			</header>	
@@ -89,7 +89,7 @@
 				</template>
 			</div>
 		</article>
-		<div class='menu' :class="{ 'is-collapsed': hasSelectedArticle('en') }">
+		<div class='menu' :class="{ 'is-collapsed': hasSelectedArticle('en') }" @click.capture="hasSelectedArticle('en') && closeArticle()">
 			<header>
 				<span class='menu-title'>Articles</span>
 			</header>			
