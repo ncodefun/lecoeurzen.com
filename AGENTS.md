@@ -1,0 +1,1 @@
+Do not run `npm run build` unless you are testing the articles build. The app itself needs no build step.
