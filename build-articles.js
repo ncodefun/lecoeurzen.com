@@ -151,7 +151,7 @@ function renderArticlePage(article) {
     <title>${escapeHtml(article.title)} | Le cœur zen</title>
     <meta name="description" content="${escapeHtml(article.description)}">
     <link rel="canonical" href="${canonicalUrl}">
-    <link rel="stylesheet" href="./article-styles.css">
+    <link rel="stylesheet" href="./styles/article-styles.css">
   </head>
   <body>
     <main class="article-shell">

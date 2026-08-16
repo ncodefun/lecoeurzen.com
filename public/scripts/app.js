@@ -8,7 +8,7 @@ const DEFAULT_QUOTES = {
   en: 'Breathe, the silence is here.\nThe heart already knows the way.\nLet the light come in.',
 };
 
-const ARTICLE_INDEX_URL = './articles.json';
+const ARTICLE_INDEX_URL = '../articles.json';
 const ARTICLE_ALIGNMENTS = new Set(['start', 'end', 'left', 'right', 'center', 'justify']);
 
 const ARTICLE_MESSAGES = {

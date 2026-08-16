@@ -11,11 +11,11 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Averia+Libre:ital,wght@0,300;0,400;0,700;1,400&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 	
-	<link rel='stylesheet' href='./flow.css'>
-	<link rel='stylesheet' href='./styles.css'>
+	<link rel='stylesheet' href='./styles/flow.css'>
+	<link rel='stylesheet' href='./styles/styles.css'>
 	<script defer src='https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js'></script>
 	<script defer src='https://cdn.jsdelivr.net/npm/marked@16.4.2/lib/marked.umd.js'></script>
-	<script defer src='./app.js'></script>
+	<script defer src='./scripts/app.js'></script>
 	<script defer src='https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js'></script>
 </head>
 <body flow='col top' x-data='zenApp()' x-init='init()' @hashchange.window='syncArticleFromRoute()' @popstate.window='syncArticleFromRoute()'>
@@ -98,13 +98,13 @@
 	
 	<footer flow='col'>
 		<div id='egg' class='abs'></div>
-		<img src='./meditation.png' alt='person sitting in meditation'>
+		<img src='./images/meditation.png' alt='person sitting in meditation'>
 		<div>
 			<a href='mailto:contact@LeCoeurZen'>contact@LeCoeurZen.com</a>
 		</div>
 	</footer>
 	<div id='night-and-day' class='abs bottom'>
-		<img src='./night-and-day.png' alt='Night and Day'>
+		<img src='./images/night-and-day.png' alt='Night and Day'>
 	</div>
 </main>
 
