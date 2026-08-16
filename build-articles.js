@@ -183,6 +183,9 @@ function renderArticlePage(article) {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/icons/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/icons/android-chrome-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/apple-touch-icon.png">
     <title>${escapeHtml(article.title)} | Le cœur zen</title>
     <meta name="description" content="${escapeHtml(article.description)}">
     <link rel="canonical" href="${canonicalUrl}">
