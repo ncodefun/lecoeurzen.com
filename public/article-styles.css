@@ -1,6 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 :root {
   color-scheme: light dark;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: Montserrat, Averia Libre;
   line-height: 1.65;
 }
 
@@ -9,7 +10,12 @@ body {
   background: #f7f4ed;
   color: #292722;
 }
-
+h1,h2 {
+  font-weight: 500;
+}
+b {
+  font-weight: 600;
+}
 .article-shell {
   box-sizing: border-box;
   width: min(100% - 2rem, 46rem);

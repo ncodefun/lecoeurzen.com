@@ -1,1 +1,14 @@
-{}
+{
+	"files.exclude": {
+		".git": true,
+		".vite": true,
+		".vscode": true,
+		".agents": true,
+		"node_modules": true,
+		".firebaserc": true,
+		"firebase.json": true,
+		"package-lock.json": true,
+		"vite.config.js": true,
+		"package.json": true
+	}
+}

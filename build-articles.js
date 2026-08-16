@@ -11,6 +11,10 @@ const publicDirectory = path.join(projectRoot, 'public')
 const publishedMarkdownDirectory = path.join(publicDirectory, 'articles')
 const siteUrl = 'https://lecoeurzen.com'
 const supportedAlignments = new Set(['start', 'end', 'left', 'right', 'center', 'justify'])
+const homeLinkLabels = {
+  fr: 'Lire sur la page principale',
+  en: 'Read on the home page',
+}
 const requiredFrontmatterFields = [
   'title',
   'slug',
@@ -129,6 +133,7 @@ function normalizeMetadata(fileName, metadata) {
 function renderArticlePage(article) {
   const canonicalUrl = `${siteUrl}/${article.slug}`
   const appUrl = `/#${article.slug}`
+  const homeLinkLabel = homeLinkLabels[article.lang]
   const tokens = marked.lexer(article.markdown)
   const beginsWithHeading = tokens[0]?.type === 'heading' && tokens[0].depth === 1
   const titleHeading = beginsWithHeading ? '' : `<h1>${escapeHtml(article.title)}</h1>`
@@ -150,7 +155,7 @@ function renderArticlePage(article) {
   </head>
   <body>
     <main class="article-shell">
-      <a class="home-link" href="${appUrl}">Lire sur la page principale | Read on the home page</a>
+      <a class="home-link" href="${appUrl}">${homeLinkLabel}</a>
       <article>
         <header class="article-header">
           ${titleHeading}
@@ -162,7 +167,7 @@ ${marked.parse(article.markdown).trim()}
         </div>
       </article>
       <footer>
-        <a href="${appUrl}">Lire sur la page principale | Read on the home page</a>
+        <a href="${appUrl}">${homeLinkLabel}</a>
       </footer>
     </main>
   </body>

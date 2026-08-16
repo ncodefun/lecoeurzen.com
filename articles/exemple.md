@@ -14,4 +14,4 @@ align: center
 
 ## Salut!
 
-Ceci est un example d'article…
+Ceci **est** un *example* d'article… cest, ***tout***!
