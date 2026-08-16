@@ -8,93 +8,63 @@ const DEFAULT_QUOTES = {
   en: 'Breathe, the silence is here.\nThe heart already knows the way.\nLet the light come in.',
 };
 
-const TEST_ARTICLE_PARAGRAPHS = {
-  fr: [
-    'Au commencement, il n’y a rien à accomplir. Il y a seulement ce souffle qui entre, ce souffle qui sort, et l’espace tranquille qui les accueille. Lorsque l’attention revient au corps, les pensées ne disparaissent pas forcément, mais elles cessent peu à peu de diriger chaque mouvement intérieur.',
-    'Nous pouvons alors écouter plus finement. Sous le bruit des habitudes se trouve une présence simple, sans urgence et sans jugement. Elle ne demande pas que la journée soit parfaite. Elle invite seulement à rencontrer ce qui est là avec assez de douceur pour ne pas ajouter une lutte à la difficulté du moment.',
-    'Marcher dans cette présence transforme les gestes ordinaires. Une tasse tenue entre les mains, une fenêtre ouverte sur la pluie, quelques pas dans une pièce silencieuse deviennent des points d’ancrage. Le monde ne ralentit pas toujours, mais notre manière de l’habiter peut devenir plus vaste et plus souple.',
-    'Quand une émotion monte, il est possible de lui faire une place sans la confondre avec toute notre histoire. Elle traverse le corps comme une météo passagère. En restant proche du souffle, nous découvrons qu’une sensation peut être intense sans être permanente, et qu’elle peut se dénouer sans être poussée ni retenue.',
-    'Cette pratique n’est pas un retrait de la vie. Elle nous rend plus disponibles à ce qui compte vraiment : une parole honnête, une limite respectée, un silence partagé, un geste offert sans attente. La clarté naît rarement d’un grand effort; elle apparaît lorsque nous cessons un instant de nous éloigner de nous-mêmes.',
-    'Puis vient le moment de reprendre la route. Rien de spectaculaire n’a peut-être changé, pourtant quelque chose s’est déplacé. Le regard est moins serré, le cœur un peu plus ouvert. Nous avançons avec la possibilité de revenir, encore et encore, à ce lieu intérieur qui n’a jamais cessé de nous attendre.',
-  ],
-  en: [
-    'At the beginning, there is nothing to accomplish. There is only this breath entering, this breath leaving, and the quiet space that receives them both. When attention returns to the body, thoughts do not necessarily disappear, but little by little they stop directing every inner movement.',
-    'We can then listen more carefully. Beneath the noise of habit is a simple presence, without urgency or judgment. It does not ask the day to be perfect. It only invites us to meet what is here with enough gentleness that we do not add another struggle to the difficulty of the moment.',
-    'Moving within this presence changes ordinary gestures. A cup held between the hands, a window open to the rain, or a few steps through a quiet room become points of return. The world does not always slow down, but our way of inhabiting it can become wider and more flexible.',
-    'When an emotion rises, we can make room for it without confusing it with our entire story. It moves through the body like passing weather. By staying close to the breath, we discover that a sensation can be intense without being permanent, and that it can loosen without being pushed away or held in place.',
-    'This practice is not a retreat from life. It makes us more available to what truly matters: an honest word, a respected boundary, a shared silence, a gesture offered without expectation. Clarity rarely comes from great effort; it appears when, for a moment, we stop moving away from ourselves.',
-    'Then the moment comes to continue on our way. Nothing spectacular may have changed, yet something has shifted. The gaze is less narrow and the heart a little more open. We move forward knowing we can return, again and again, to the inner place that never stopped waiting for us.',
-  ],
+const ARTICLE_INDEX_URL = './articles.json';
+const ARTICLE_ALIGNMENTS = new Set(['start', 'end', 'left', 'right', 'center', 'justify']);
+
+const ARTICLE_MESSAGES = {
+  loading: {
+    fr: 'Chargement de l’article…',
+    en: 'Loading article…',
+  },
+  loadError: {
+    fr: 'Impossible de charger cet article pour le moment.',
+    en: 'This article could not be loaded right now.',
+  },
+  indexError: {
+    fr: 'Impossible de charger la liste des articles pour le moment.',
+    en: 'The article list could not be loaded right now.',
+  },
 };
-
-const ARTICLE_TITLES = {
-  fr: [
-    'Respirer dans le silence',
-    'Le seuil invisible du matin',
-    'Lorsque le cœur cesse de chercher',
-    'Marcher lentement sous la lune',
-    "La tasse vide et l'esprit clair",
-    'Habiter l’instant entre deux pensées',
-    'Le jardin intérieur après la pluie',
-    'La sagesse tranquille des pierres',
-    'Écouter ce que le vent ne dit pas',
-    'Revenir au souffle, revenir à soi',
-    'Le lotus qui fleurit dans l’ombre',
-    'Une lumière au centre du chaos',
-    'L’art doux de ne rien retenir',
-    'Quand la montagne devient chemin',
-    'La présence comme unique refuge',
-    'Ce que murmure la rivière immobile',
-    'Les mille portes d’un seul instant',
-  ],
-  en: [
-    'Breathing into the silence',
-    'The invisible threshold of morning',
-    'When the heart stops searching',
-    'Walking slowly beneath the moon',
-    'The empty cup and the clear mind',
-    'Living between two thoughts',
-    'The inner garden after rain',
-    'The quiet wisdom of stones',
-    'Listening to what the wind leaves unsaid',
-    'Returning to the breath, returning home',
-    'The lotus blooming in shadow',
-    'A light at the center of chaos',
-    'The gentle art of holding nothing',
-    'When the mountain becomes the path',
-    'Presence as the only refuge',
-    'What the motionless river whispers',
-    'A thousand doors in a single moment',
-  ],
-};
-
-function slugify(title) {
-  return title
-    .normalize('NFD')
-    .replace(/[œŒ]/g, 'oe')
-    .replace(/[æÆ]/g, 'ae')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[’']/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
-}
-
-const ARTICLES = Object.fromEntries(
-  Object.entries(ARTICLE_TITLES).map(([language, titles]) => [
-    language,
-    titles.map((title) => ({
-      title,
-      slug: slugify(title),
-      source: `./articles/${language}/${slugify(title)}.md`,
-    })),
-  ]),
-);
 
 const initialPanelState = () => ({
   fr: false,
   en: false,
 });
+
+const initialArticleState = () => ({
+  fr: [],
+  en: [],
+});
+
+function parseArticleSource(source) {
+  if (!window.jsyaml || !window.marked) {
+    throw new Error('Markdown dependencies are unavailable.');
+  }
+
+  const normalizedSource = source.replace(/^\uFEFF/, '');
+  const match = normalizedSource.match(
+    /^---[\t ]*\r?\n([\s\S]*?)\r?\n---[\t ]*(?:\r?\n|$)([\s\S]*)$/,
+  );
+
+  if (!match) {
+    throw new Error('Article frontmatter is missing or invalid.');
+  }
+
+  const metadata = window.jsyaml.load(match[1]);
+  if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)) {
+    throw new Error('Article frontmatter must be an object.');
+  }
+
+  const tokens = window.marked.lexer(match[2].trimStart());
+  if (tokens[0]?.type === 'heading' && tokens[0].depth === 1) {
+    tokens.shift();
+  }
+
+  return {
+    metadata,
+    content: window.marked.parser(tokens),
+  };
+}
 
 function fullscreenError(error) {
   console.error(`Fullscreen error: ${error.message}`);
@@ -103,6 +73,15 @@ function fullscreenError(error) {
 function zenApp() {
   const pendingArticleScrolls = new Map();
   const languageResetTimers = new Map();
+  const articleCache = new Map();
+  let articleLoadController = null;
+  let articleLoadRequest = 0;
+
+  function cancelArticleLoad() {
+    articleLoadRequest += 1;
+    articleLoadController?.abort();
+    articleLoadController = null;
+  }
 
   function cancelLanguageReset(language) {
     const timer = languageResetTimers.get(language);
@@ -122,19 +101,60 @@ function zenApp() {
 
   return {
     activeLanguage: '',
-    articles: ARTICLES,
-    testArticleParagraphs: TEST_ARTICLE_PARAGRAPHS,
+    exitingArticleLanguage: '',
+    articles: initialArticleState(),
+    articlesReady: false,
+    articleIndexError: false,
     scrolledArticles: initialPanelState(),
-    articleHeadings: {
-      fr: 'Choisissez un article',
-      en: 'Choose an article',
-    },
     selectedArticleIndex: -1,
     selectedArticleLanguage: '',
     loadedArticle: null,
 
     init() {
-      this.syncArticleFromRoute();
+      this.loadArticleIndex();
+    },
+
+    async loadArticleIndex() {
+      try {
+        const response = await fetch(ARTICLE_INDEX_URL, {
+          headers: { Accept: 'application/json' },
+        });
+        if (!response.ok) {
+          throw new Error(`Article index request failed with ${response.status}.`);
+        }
+
+        const articleIndex = await response.json();
+        if (!Array.isArray(articleIndex)) {
+          throw new Error('Article index must be an array.');
+        }
+
+        const articles = initialArticleState();
+        for (const article of articleIndex) {
+          const language = article.lang;
+          if (!Object.hasOwn(LANGUAGE_NAMES, language)) {
+            console.warn(`Ignoring article with unsupported language: ${article.slug ?? 'unknown'}`);
+            continue;
+          }
+          if (
+            typeof article.title !== 'string'
+            || typeof article.slug !== 'string'
+            || typeof article.markdownUrl !== 'string'
+          ) {
+            console.warn('Ignoring invalid article index entry.', article);
+            continue;
+          }
+
+          articles[language].push(article);
+        }
+
+        this.articles = articles;
+      } catch (error) {
+        console.error(`Article index error: ${error.message}`);
+        this.articleIndexError = true;
+      } finally {
+        this.articlesReady = true;
+        this.syncArticleFromRoute();
+      }
     },
 
     async toggleFullscreen() {
@@ -178,9 +198,9 @@ function zenApp() {
       if (!article) return;
 
       cancelLanguageReset(language);
+      this.exitingArticleLanguage = '';
       this.selectedArticleLanguage = language;
       this.selectedArticleIndex = index;
-      this.articleHeadings[language] = article.title;
       this.activeLanguage = language;
       this.resetArticleScroll(language);
 
@@ -191,23 +211,80 @@ function zenApp() {
       this.loadArticle(language, index);
     },
 
-    loadArticle(language, index) {
+    async loadArticle(language, index) {
       const article = this.articles[language]?.[index];
       if (!article) return;
 
-      // File loading/parsing boundary: replace this placeholder with a fetch of
-      // article.source and pass the response through the future Markdown parser.
+      cancelArticleLoad();
+      const request = articleLoadRequest;
       this.loadedArticle = {
         language,
         index,
         title: article.title,
-        content: language === 'fr'
-          ? `Le contenu de « ${article.title} » sera chargé depuis ${article.source}.`
-          : `“${article.title}” will be loaded from ${article.source}.`,
+        metadata: article,
+        status: 'loading',
+        content: '',
       };
+
+      try {
+        let parsedArticle = articleCache.get(article.markdownUrl);
+        if (!parsedArticle) {
+          articleLoadController = new AbortController();
+          const response = await fetch(article.markdownUrl, {
+            headers: { Accept: 'text/markdown, text/plain;q=0.9' },
+            signal: articleLoadController.signal,
+          });
+          if (!response.ok) {
+            throw new Error(`Article request failed with ${response.status}.`);
+          }
+
+          parsedArticle = parseArticleSource(await response.text());
+          articleCache.set(article.markdownUrl, parsedArticle);
+        }
+
+        if (
+          request !== articleLoadRequest
+          || this.selectedArticleLanguage !== language
+          || this.selectedArticleIndex !== index
+        ) return;
+
+        const parsedTitle = typeof parsedArticle.metadata.title === 'string'
+          ? parsedArticle.metadata.title.trim()
+          : '';
+        this.loadedArticle = {
+          language,
+          index,
+          title: parsedTitle || article.title,
+          metadata: {
+            ...parsedArticle.metadata,
+            ...article,
+            title: parsedTitle || article.title,
+          },
+          status: 'ready',
+          content: parsedArticle.content,
+        };
+      } catch (error) {
+        if (error.name === 'AbortError' || request !== articleLoadRequest) return;
+
+        console.error(`Article loading error: ${error.message}`);
+        this.loadedArticle = {
+          language,
+          index,
+          title: article.title,
+          metadata: article,
+          status: 'error',
+          content: '',
+        };
+      } finally {
+        if (request === articleLoadRequest) {
+          articleLoadController = null;
+        }
+      }
     },
 
     syncArticleFromRoute() {
+      if (!this.articlesReady) return;
+
       const slug = decodeURIComponent(window.location.hash.slice(1));
 
       if (!slug) {
@@ -262,10 +339,17 @@ function zenApp() {
     },
 
     resetArticleSelection() {
+      const exitingLanguage = this.selectedArticleLanguage || this.loadedArticle?.language;
+      cancelArticleLoad();
+      this.exitingArticleLanguage = exitingLanguage || '';
       this.selectedArticleIndex = -1;
       this.selectedArticleLanguage = '';
       this.resetArticleScroll('fr');
       this.resetArticleScroll('en');
+
+      if (!exitingLanguage || this.loadedArticle?.language !== exitingLanguage) {
+        this.exitingArticleLanguage = '';
+      }
     },
 
     resetLanguageState(language) {
@@ -273,6 +357,8 @@ function zenApp() {
 
       if (this.selectedArticleLanguage !== language) return;
 
+      cancelArticleLoad();
+      this.exitingArticleLanguage = '';
       this.selectedArticleIndex = -1;
       this.selectedArticleLanguage = '';
       if (window.location.hash) {
@@ -280,16 +366,67 @@ function zenApp() {
       }
     },
 
-    articleHeading(language) {
-      return this.articleHeadings[language];
+    articleTitle(language) {
+      if (this.loadedArticle?.language === language) {
+        const title = this.loadedArticle.metadata?.title;
+        if (typeof title === 'string' && title.trim()) return title.trim();
+      }
+
+      if (this.selectedArticleLanguage !== language) return '';
+      return this.articles[language]?.[this.selectedArticleIndex]?.title ?? '';
     },
 
     quoteContent(language) {
+      if (this.articleIndexError) return ARTICLE_MESSAGES.indexError[language];
       return DEFAULT_QUOTES[language];
     },
 
     articleContent(language) {
-      return this.loadedArticle?.language === language ? this.loadedArticle.content : '';
+      if (this.loadedArticle?.language !== language) return '';
+      if (this.loadedArticle.status === 'loading') {
+        return `<p class="article-info" role="status">${ARTICLE_MESSAGES.loading[language]}</p>`;
+      }
+      if (this.loadedArticle.status === 'error') {
+        return `<p class="article-info" role="alert">${ARTICLE_MESSAGES.loadError[language]}</p>`;
+      }
+      return this.loadedArticle.content;
+    },
+
+    articleAlignment(language) {
+      const loadedAlignment = this.loadedArticle?.language === language
+        ? this.loadedArticle.metadata?.align
+        : null;
+      const selectedAlignment = this.selectedArticleLanguage === language
+        ? this.articles[language]?.[this.selectedArticleIndex]?.align
+        : null;
+      const alignment = loadedAlignment ?? selectedAlignment ?? 'left';
+
+      return ARTICLE_ALIGNMENTS.has(alignment) ? alignment : 'left';
+    },
+
+    isArticleLoading(language) {
+      return this.loadedArticle?.language === language
+        && this.loadedArticle.status === 'loading';
+    },
+
+    isArticleRendered(language) {
+      return this.hasSelectedArticle(language)
+        || this.exitingArticleLanguage === language;
+    },
+
+    isArticleExiting(language) {
+      return this.exitingArticleLanguage === language;
+    },
+
+    finishArticleExit(language, event) {
+      if (
+        event.target !== event.currentTarget
+        || event.propertyName !== 'opacity'
+        || this.exitingArticleLanguage !== language
+        || this.hasSelectedArticle(language)
+      ) return;
+
+      this.exitingArticleLanguage = '';
     },
   };
 }

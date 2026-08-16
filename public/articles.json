@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Example Article",
+    "slug": "example",
+    "date": "2026-08-15",
+    "description": "",
+    "tags": [],
+    "lang": "en",
+    "align": "left",
+    "markdownUrl": "/articles/example.md",
+    "indexUrl": "/example",
+    "appUrl": "/#example"
+  },
+  {
+    "title": "Exemple d'article",
+    "slug": "exemple",
+    "date": "2026-08-15",
+    "description": "",
+    "tags": [],
+    "lang": "fr",
+    "align": "center",
+    "markdownUrl": "/articles/exemple.md",
+    "indexUrl": "/exemple",
+    "appUrl": "/#exemple"
+  }
+]

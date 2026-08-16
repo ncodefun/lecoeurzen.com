@@ -13,6 +13,8 @@
 	
 	<link rel='stylesheet' href='./flow.css'>
 	<link rel='stylesheet' href='./styles.css'>
+	<script defer src='https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js'></script>
+	<script defer src='https://cdn.jsdelivr.net/npm/marked@16.4.2/lib/marked.umd.js'></script>
 	<script defer src='./app.js'></script>
 	<script defer src='https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js'></script>
 </head>
@@ -65,14 +67,9 @@
 		
 		<article x-ref='articleFr' x-init='$el.addEventListener("scroll", () => queueArticleScroll("fr", $el), { passive: true })'>
 			<div class='article-scroll-shadow' :class="{ 'is-visible': scrolledArticles.fr }" aria-hidden='true'></div>
-			<h2 :class="{ 'is-visible': hasSelectedArticle('fr') }" x-text='articleHeading("fr")'></h2>
+			<h1 :class="{ 'is-visible': hasSelectedArticle('fr') }" x-text='articleTitle("fr")'></h1>
 			<div class='article-quote' :class="{ 'is-visible': !hasSelectedArticle('fr') }" :aria-hidden="hasSelectedArticle('fr')" x-text='quoteContent("fr")'></div>
-			<div class='article-content' :class="{ 'is-visible': hasSelectedArticle('fr') }" :aria-hidden="!hasSelectedArticle('fr')">
-				<p class='article-info' x-text='articleContent("fr")'></p>
-				<template x-for='(paragraph, index) in testArticleParagraphs.fr' :key='index'>
-					<p x-text='paragraph'></p>
-				</template>
-			</div>
+			<div class='article-content' :class="{ 'is-visible': isArticleRendered('fr'), 'is-exiting': isArticleExiting('fr') }" :style="{ textAlign: articleAlignment('fr') }" :aria-hidden="!isArticleRendered('fr')" :aria-busy='isArticleLoading("fr")' @transitionend='finishArticleExit("fr", $event)' x-html='articleContent("fr")'></div>
 		</article>
 	</aside>
 	
@@ -80,14 +77,9 @@
 	<aside id='blog-en' lang='en' class='right abs' flow='row stretch' :class="{ 'is-open': isLanguageOpen('en'), 'is-wide': hasSelectedArticle('en') }" :aria-hidden='!isLanguageOpen("en")' :inert='!isLanguageOpen("en")'>
 		<article x-ref='articleEn' x-init='$el.addEventListener("scroll", () => queueArticleScroll("en", $el), { passive: true })'>
 			<div class='article-scroll-shadow' :class="{ 'is-visible': scrolledArticles.en }" aria-hidden='true'></div>
-			<h2 :class="{ 'is-visible': hasSelectedArticle('en') }" x-text='articleHeading("en")'></h2>
+			<h1 :class="{ 'is-visible': hasSelectedArticle('en') }" x-text='articleTitle("en")'></h1>
 			<div class='article-quote' :class="{ 'is-visible': !hasSelectedArticle('en') }" :aria-hidden="hasSelectedArticle('en')" x-text='quoteContent("en")'></div>
-			<div class='article-content' :class="{ 'is-visible': hasSelectedArticle('en') }" :aria-hidden="!hasSelectedArticle('en')">
-				<p class='article-info' x-text='articleContent("en")'></p>
-				<template x-for='(paragraph, index) in testArticleParagraphs.en' :key='index'>
-					<p x-text='paragraph'></p>
-				</template>
-			</div>
+			<div class='article-content' :class="{ 'is-visible': isArticleRendered('en'), 'is-exiting': isArticleExiting('en') }" :style="{ textAlign: articleAlignment('en') }" :aria-hidden="!isArticleRendered('en')" :aria-busy='isArticleLoading("en")' @transitionend='finishArticleExit("en", $event)' x-html='articleContent("en")'></div>
 		</article>
 		<div class='menu' :class="{ 'is-collapsed': hasSelectedArticle('en') }" @click.capture="hasSelectedArticle('en') && closeArticle()">
 			<header>
