@@ -1122,8 +1122,8 @@ html[data-theme='dark'] {
 
 		& > img {
 			/* filter: saturate(.38) brightness(.76) contrast(1.08) drop-shadow(1px 4px 12px #020807cc); */
-			filter: saturate(0.76) brightness(1.4) contrast(0.55) drop-shadow(.1rem .2rem .6rem rgba(255, 255, 203, 0.5));
-
+			/* filter: saturate(0.76) brightness(1.4) contrast(0.55) drop-shadow(.1rem .2rem .6rem rgba(255, 255, 203, 0.5)); */
+			filter: saturate(0.76) brightness(1.4) contrast(0.6) drop-shadow(.1rem .2rem .55rem rgba(255, 255, 203, 0.45));
 		}
 		#egg {
 			/* background-color: #fff1 !important; */
