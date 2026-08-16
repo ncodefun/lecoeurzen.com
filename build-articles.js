@@ -153,6 +153,11 @@ function normalizeMetadata(fileName, metadata) {
     )
   }
 
+  const order = metadata.order
+  if (order != null && (!Number.isInteger(order) || order < 1)) {
+    throw new Error(`${fileName}: order must be a positive whole number`)
+  }
+
   return {
     title,
     slug,
@@ -162,6 +167,7 @@ function normalizeMetadata(fileName, metadata) {
     lang,
     align: align.trim(),
     draft: metadata.draft,
+    ...(order == null ? {} : { order }),
   }
 }
 
@@ -306,7 +312,7 @@ async function buildArticles() {
     ]),
   )
 
-  const articleIndex = articles.map(({ title, slug, date, description, tags, lang, align }) => ({
+  const articleIndex = articles.map(({ title, slug, date, description, tags, lang, align, order }) => ({
     title,
     slug,
     date,
@@ -314,6 +320,7 @@ async function buildArticles() {
     tags,
     lang,
     align,
+    ...(order == null ? {} : { order }),
     markdownUrl: `/articles/${slug}.md`,
     indexUrl: `/${slug}`,
     appUrl: `/#${slug}`,

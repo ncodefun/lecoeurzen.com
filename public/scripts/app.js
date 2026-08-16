@@ -36,6 +36,21 @@ const initialArticleState = () => ({
   en: [],
 });
 
+function applyArticleOrder(articles) {
+  const orderedArticles = [...articles];
+  const pinnedArticles = articles
+    .filter((article) => Number.isInteger(article.order) && article.order > 0)
+    .sort((a, b) => a.order - b.order);
+
+  for (const article of pinnedArticles) {
+    const currentIndex = orderedArticles.indexOf(article);
+    orderedArticles.splice(currentIndex, 1);
+    orderedArticles.splice(Math.min(article.order - 1, orderedArticles.length), 0, article);
+  }
+
+  return orderedArticles;
+}
+
 function parseArticleSource(source) {
   if (!window.jsyaml || !window.marked) {
     throw new Error('Markdown dependencies are unavailable.');
@@ -164,7 +179,10 @@ function zenApp() {
           articles[language].push(article);
         }
 
-        this.articles = articles;
+        this.articles = {
+          fr: applyArticleOrder(articles.fr),
+          en: applyArticleOrder(articles.en),
+        };
       } catch (error) {
         console.error(`Article index error: ${error.message}`);
         this.articleIndexError = true;
