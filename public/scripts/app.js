@@ -101,6 +101,7 @@ function zenApp() {
 
   return {
     activeLanguage: '',
+    darkMode: document.documentElement.dataset.theme === 'dark',
     exitingArticleLanguage: '',
     articles: initialArticleState(),
     articlesReady: false,
@@ -111,7 +112,23 @@ function zenApp() {
     loadedArticle: null,
 
     init() {
+      this.applyTheme(this.darkMode);
       this.loadArticleIndex();
+    },
+
+    applyTheme(isDark) {
+      document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+    },
+
+    toggleTheme() {
+      this.darkMode = !this.darkMode;
+      this.applyTheme(this.darkMode);
+
+      try {
+        localStorage.setItem('zen-theme', this.darkMode ? 'dark' : 'light');
+      } catch {
+        // The theme still works when storage is unavailable.
+      }
     },
 
     async loadArticleIndex() {
