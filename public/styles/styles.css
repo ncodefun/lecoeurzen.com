@@ -722,6 +722,9 @@ main {
 				animation: none;
 			}
 		}
+		h1,h2,h3,h4,b,strong {
+			font-weight: 500;
+		}
 		.article-content {
 			display: none;
 			width: min(100%, 65ch);
