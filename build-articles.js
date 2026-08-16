@@ -25,6 +25,41 @@ const requiredFrontmatterFields = [
   'draft',
 ]
 
+function getCurrentDate() {
+  const now = new Date()
+  const localDate = new Date(now.getTime() - now.getTimezoneOffset() * 60_000)
+  return localDate.toISOString().slice(0, 10)
+}
+
+function renderNewArticleSource() {
+  return `---
+title: New Article
+slug: new-article
+date: ${getCurrentDate()}
+description:
+tags:
+lang: en
+draft: true
+---
+
+# New Article
+`
+}
+
+async function createNewArticleSource() {
+  try {
+    await writeFile(
+      path.join(sourceDirectory, 'new-article.md'),
+      renderNewArticleSource(),
+      { encoding: 'utf8', flag: 'wx' },
+    )
+  } catch (error) {
+    if (error.code !== 'EEXIST') {
+      throw error
+    }
+  }
+}
+
 function escapeHtml(value) {
   return String(value)
     .replaceAll('&', '&amp;')
@@ -208,6 +243,8 @@ async function readPreviousPublishedSlugs() {
 }
 
 async function buildArticles() {
+  await createNewArticleSource()
+
   const entries = await readdir(sourceDirectory, { withFileTypes: true })
   const markdownFiles = entries
     .filter((entry) => entry.isFile() && entry.name.toLowerCase().endsWith('.md'))
