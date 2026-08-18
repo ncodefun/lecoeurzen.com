@@ -1,5 +1,17 @@
 [
   {
+    "title": "Plus grand que tout",
+    "slug": "plus-grand-que-tout",
+    "date": "2026-08-17",
+    "description": "",
+    "tags": [],
+    "lang": "fr",
+    "align": "left",
+    "markdownUrl": "/articles/plus-grand-que-tout.md",
+    "indexUrl": "/plus-grand-que-tout",
+    "appUrl": "/#plus-grand-que-tout"
+  },
+  {
     "title": "Example Article",
     "slug": "example",
     "date": "2026-08-15",
@@ -10,17 +22,5 @@
     "markdownUrl": "/articles/example.md",
     "indexUrl": "/example",
     "appUrl": "/#example"
-  },
-  {
-    "title": "Exemple d'article",
-    "slug": "exemple",
-    "date": "2026-08-15",
-    "description": "",
-    "tags": [],
-    "lang": "fr",
-    "align": "center",
-    "markdownUrl": "/articles/exemple.md",
-    "indexUrl": "/exemple",
-    "appUrl": "/#exemple"
   }
 ]

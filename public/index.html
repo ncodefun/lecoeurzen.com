@@ -4,8 +4,17 @@
 	<meta charset='UTF-8'>
 	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
 	<link rel="icon" href="/images/icons/favicon.ico" sizes="any">
-	<link rel="icon" type="image/png" sizes="192x192" href="/images/icons/android-chrome-192x192.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="/images/icons/apple-touch-icon.png">
+	<link
+		rel="icon"
+		type="image/png"
+		sizes="192x192"
+		href="/images/icons/android-chrome-192x192.png"
+	>
+	<link
+		rel="apple-touch-icon"
+		sizes="180x180"
+		href="/images/icons/apple-touch-icon.png"
+	>
 	<link rel="manifest" href="/site.webmanifest">
 	
 	<title>Le cœur Zen</title>
@@ -20,7 +29,10 @@
 	
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Averia+Libre:ital,wght@0,300;0,400;0,700;1,400&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap"
+		rel="stylesheet"
+	>
 	
 	<link rel='stylesheet' href='./styles/flow.css'>
 	<link rel='stylesheet' href='./styles/styles.css'>
@@ -29,7 +41,13 @@
 	<script defer src='./scripts/app.js'></script>
 	<script defer src='https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js'></script>
 </head>
-<body flow='col top' x-data='zenApp()' x-init='init()' @hashchange.window='syncArticleFromRoute()' @popstate.window='syncArticleFromRoute()'>
+<body
+	flow='col top'
+	x-data='zenApp()'
+	x-init='init()'
+	@hashchange.window='syncArticleFromRoute()'
+	@popstate.window='syncArticleFromRoute()'
+>
 <main flow='col top grow' id='main'>
 	
 	<div id='logo' @click='toggleFullscreen'>		
@@ -42,28 +60,80 @@
 	</div>
 
 	<nav class='language-switcher' aria-label='Blog language'>
-		<button class='language-toggle fr' type='button' aria-controls='blog-fr' x-show="!activeLanguage || isLanguageOpen('fr')" :class="{ 'is-active': isLanguageOpen('fr') }" :aria-pressed='isLanguageOpen("fr")' @click='toggleLanguage("fr")'>FR</button>
-		<button class='language-toggle en' type='button' aria-controls='blog-en' x-show="!activeLanguage || isLanguageOpen('en')" :class="{ 'is-active': isLanguageOpen('en') }" :aria-pressed='isLanguageOpen("en")' @click='toggleLanguage("en")'>EN</button>
+		<button
+			class='language-toggle fr'
+			type='button'
+			aria-controls='blog-fr'
+			x-show="!activeLanguage || isLanguageOpen('fr')"
+			:class="{ 'is-active': isLanguageOpen('fr') }"
+			:aria-pressed='isLanguageOpen("fr")'
+			@click='toggleLanguage("fr")'
+			>
+			FR
+		</button>
+		<button
+			class='language-toggle en'
+			type='button'
+			aria-controls='blog-en'
+			x-show="!activeLanguage || isLanguageOpen('en')"
+			:class="{ 'is-active': isLanguageOpen('en') }"
+			:aria-pressed='isLanguageOpen("en")'
+			@click='toggleLanguage("en")'
+			>
+			EN
+		</button>
 	</nav>
 
-	<div class='article-handle-wrap points-left' :class="{ 'is-visible': isLanguageOpen('fr') && hasSelectedArticle('fr') }" :aria-hidden='!(isLanguageOpen("fr") && hasSelectedArticle("fr"))'>
-		<button class='article-handle' type='button' aria-label='Fermer l’article et ouvrir le menu' :tabindex='isLanguageOpen("fr") && hasSelectedArticle("fr") ? 0 : -1' @click='closeArticle()'>
+	<div
+		class='article-handle-wrap points-left'
+		:class="{ 'is-visible': isLanguageOpen('fr') && hasSelectedArticle('fr') }"
+		:aria-hidden='!(isLanguageOpen("fr") && hasSelectedArticle("fr"))'
+		>
+		<button
+			class='article-handle'
+			type='button'
+			aria-label='Fermer l’article et ouvrir le menu'
+			:tabindex='isLanguageOpen("fr") && hasSelectedArticle("fr") ? 0 : -1'
+			@click='closeArticle()'
+			>
 			<svg aria-hidden='true' viewBox='0 0 12 20'>
 				<path d='M3 2.5 10 10l-7 7.5'/>
 			</svg>
 		</button>
 	</div>
-	<div class='article-handle-wrap points-right' :class="{ 'is-visible': isLanguageOpen('en') && hasSelectedArticle('en') }" :aria-hidden='!(isLanguageOpen("en") && hasSelectedArticle("en"))'>
-		<button class='article-handle' type='button' aria-label='Close article and open menu' :tabindex='isLanguageOpen("en") && hasSelectedArticle("en") ? 0 : -1' @click='closeArticle()'>
+	<div
+		class='article-handle-wrap points-right'
+		:class="{ 'is-visible': isLanguageOpen('en') && hasSelectedArticle('en') }"
+		:aria-hidden='!(isLanguageOpen("en") && hasSelectedArticle("en"))'
+		>
+		<button
+			class='article-handle'
+			type='button'
+			aria-label='Close article and open menu'
+			:tabindex='isLanguageOpen("en") && hasSelectedArticle("en") ? 0 : -1'
+			@click='closeArticle()'
+			>
 			<svg aria-hidden='true' viewBox='0 0 12 20'>
 				<path d='M3 2.5 10 10l-7 7.5'/>
 			</svg>
 		</button>
 	</div>
 
-	<aside id='blog-fr' lang='fr' class='left abs' flow='row stretch' :class="{ 'is-open': isLanguageOpen('fr'), 'is-wide': hasSelectedArticle('fr') }" :aria-hidden='!isLanguageOpen("fr")' :inert='!isLanguageOpen("fr")'>
+	<aside
+		id='blog-fr'
+		lang='fr'
+		class='left abs'
+		flow='row stretch'
+		:class="{ 'is-open': isLanguageOpen('fr'), 'is-wide': hasSelectedArticle('fr') }"
+		:aria-hidden='!isLanguageOpen("fr")'
+		:inert='!isLanguageOpen("fr")'
+	>
 		<!-- #links to french articles  -->
-		<div class='menu' :class="{ 'is-collapsed': hasSelectedArticle('fr') }" @click.capture="hasSelectedArticle('fr') && closeArticle()">
+		<div
+			class='menu'
+			:class="{ 'is-collapsed': hasSelectedArticle('fr') }"
+			@click.capture="hasSelectedArticle('fr') && closeArticle()"
+			>
 			<header>
 				<span class='menu-title'>Articles</span>
 			</header>	
@@ -76,23 +146,73 @@
 			</ul>
 		</div>
 		
-		<article x-ref='articleFr' x-init='$el.addEventListener("scroll", () => queueArticleScroll("fr", $el), { passive: true })'>
+		<article
+			x-ref='articleFr'
+			x-init='$el.addEventListener("scroll", () => queueArticleScroll("fr", $el), { passive: true })'
+			>
 			<div class='article-scroll-shadow' :class="{ 'is-visible': scrolledArticles.fr }" aria-hidden='true'></div>
 			<h1 :class="{ 'is-visible': hasSelectedArticle('fr') }" x-text='articleTitle("fr")'></h1>
-			<div class='article-quote' :class="{ 'is-visible': !hasSelectedArticle('fr') }" :aria-hidden="hasSelectedArticle('fr')" x-text='quoteContent("fr")'></div>
-			<div class='article-content' :class="{ 'is-visible': isArticleRendered('fr'), 'is-exiting': isArticleExiting('fr') }" :style="{ textAlign: articleAlignment('fr') }" :aria-hidden="!isArticleRendered('fr')" :aria-busy='isArticleLoading("fr")' @transitionend='finishArticleExit("fr", $event)' x-html='articleContent("fr")'></div>
+			<div
+				class='article-quote'
+				:class="{ 'is-visible': !hasSelectedArticle('fr') }"
+				:aria-hidden="hasSelectedArticle('fr')"
+				x-text='quoteContent("fr")'
+			></div>
+			<div
+				class='article-content'
+				:class="{ 'is-visible': isArticleRendered('fr'), 'is-exiting': isArticleExiting('fr') }"
+				:style="{ textAlign: articleAlignment('fr') }"
+				:aria-hidden="!isArticleRendered('fr')"
+				:aria-busy='isArticleLoading("fr")'
+				@pointerenter='moveArticleSpotlight($event)'
+				@pointermove='moveArticleSpotlight($event)'
+				@pointerleave='endArticleSpotlight($event)'
+				@transitionend='finishArticleExit("fr", $event)'
+				x-html='articleContent("fr")'
+			></div>
 		</article>
 	</aside>
 	
 		<!-- #links to english articles  -->
-	<aside id='blog-en' lang='en' class='right abs' flow='row stretch' :class="{ 'is-open': isLanguageOpen('en'), 'is-wide': hasSelectedArticle('en') }" :aria-hidden='!isLanguageOpen("en")' :inert='!isLanguageOpen("en")'>
-		<article x-ref='articleEn' x-init='$el.addEventListener("scroll", () => queueArticleScroll("en", $el), { passive: true })'>
+	<aside
+		id='blog-en'
+		lang='en'
+		class='right abs'
+		flow='row stretch'
+		:class="{ 'is-open': isLanguageOpen('en'), 'is-wide': hasSelectedArticle('en') }"
+		:aria-hidden='!isLanguageOpen("en")'
+		:inert='!isLanguageOpen("en")'
+	>
+		<article
+			x-ref='articleEn'
+			x-init='$el.addEventListener("scroll", () => queueArticleScroll("en", $el), { passive: true })'
+		>
 			<div class='article-scroll-shadow' :class="{ 'is-visible': scrolledArticles.en }" aria-hidden='true'></div>
 			<h1 :class="{ 'is-visible': hasSelectedArticle('en') }" x-text='articleTitle("en")'></h1>
-			<div class='article-quote' :class="{ 'is-visible': !hasSelectedArticle('en') }" :aria-hidden="hasSelectedArticle('en')" x-text='quoteContent("en")'></div>
-			<div class='article-content' :class="{ 'is-visible': isArticleRendered('en'), 'is-exiting': isArticleExiting('en') }" :style="{ textAlign: articleAlignment('en') }" :aria-hidden="!isArticleRendered('en')" :aria-busy='isArticleLoading("en")' @transitionend='finishArticleExit("en", $event)' x-html='articleContent("en")'></div>
+			<div
+				class='article-quote'
+				:class="{ 'is-visible': !hasSelectedArticle('en') }"
+				:aria-hidden="hasSelectedArticle('en')"
+				x-text='quoteContent("en")'
+			></div>
+			<div
+				class='article-content'
+				:class="{ 'is-visible': isArticleRendered('en'), 'is-exiting': isArticleExiting('en') }"
+				:style="{ textAlign: articleAlignment('en') }"
+				:aria-hidden="!isArticleRendered('en')"
+				:aria-busy='isArticleLoading("en")'
+				@pointerenter='moveArticleSpotlight($event)'
+				@pointermove='moveArticleSpotlight($event)'
+				@pointerleave='endArticleSpotlight($event)'
+				@transitionend='finishArticleExit("en", $event)'
+				x-html='articleContent("en")'
+			></div>
 		</article>
-		<div class='menu' :class="{ 'is-collapsed': hasSelectedArticle('en') }" @click.capture="hasSelectedArticle('en') && closeArticle()">
+		<div
+			class='menu'
+			:class="{ 'is-collapsed': hasSelectedArticle('en') }"
+			@click.capture="hasSelectedArticle('en') && closeArticle()"
+		>
 			<header>
 				<span class='menu-title'>Articles</span>
 			</header>			
@@ -106,24 +226,48 @@
 		</div>
 	</aside>
 	
-	
 	<footer flow='col'>
 		<div id='egg' class='abs'></div>
-		<img src='./images/meditation.png' alt='person sitting in meditation'>
-		<button id='theme-toggle' class='abs' type='button' aria-label='Basculer entre les modes clair et sombre' :aria-pressed='darkMode' @click='toggleTheme()'>
-			<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24" aria-hidden="true">
+		<img src='./images/meditation.png' id='meditator' alt='person sitting in meditation'>
+		
+		<img src='./images/meditator-chakras.png' alt='' id='meditator-chakras'>
+		
+		<button
+			id='theme-toggle'
+			class='abs'
+			type='button'
+			aria-label='Basculer entre les modes clair et sombre'
+			:aria-pressed='darkMode'
+			@click='toggleTheme()'
+			>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="2rem"
+				height="2rem"
+				viewBox="0 0 24 24"
+				aria-hidden="true"
+				>
 				<path d="M0 0h24v24H0z" fill="none" />
-				<path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.353 3C5.849 4.408 3 7.463 3 11.47A9.53 9.53 0 0 0 12.53 21c4.007 0 7.062-2.849 8.47-6.353C8.17 17.065 8.14 8.14 9.353 3" />
+				<path
+					fill="currentColor"
+					stroke="currentColor"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M9.353 3C5.849 4.408 3 7.463 3 11.47A9.53 9.53 0 0 0 12.53 21c4.007 0 7.062-2.849 8.47-6.353C8.17 17.065 8.14 8.14 9.353 3"
+				/>
 			</svg>
 		</button>
 		<div>
-			<a href='mailto:contact@LeCoeurZen'>contact@LeCoeurZen.com</a>
+			<a href='mailto:contact@LeCoeurZen'><b>contact</b>@<b>LeCoeurZen</b>.com</a>
 		</div>
 	</footer>
+	
 	<div id='night-and-day' class='abs bottom'>
 		<img src='./images/night-and-day.png' alt='Night and Day'>
+		<img src='./images/night-and-day-original.png' alt='Night and Day'>		
 	</div>
-</main>
 
+</main>
 </body>
 </html>
