@@ -4,7 +4,25 @@ const LANGUAGE_NAMES = {
 };
 
 const DEFAULT_QUOTES = {
-  fr: 'Respire, le silence est là.\nLe cœur connaît le chemin.\nLaisse la lumière entrer.',
+  fr: `Y en aura toujours 
+pour redire que ça se peut juste pas
+que c'est rien que du grand n'importe quoi
+et d'autres encore 
+pour voir que déjà
+tout est là, milles fois
+
+Encore et encore, c'est le même refrain
+qui t'emmène au même ciel des perdus
+qui essaye de t'emmener plus haut
+et te faire voir le petit monde illuminé
+ce qu'il brasse en bas, dans ses trippes
+la nuit, détaché, comme un mort, tu vois…
+
+C'est à l'infini que je le redit
+c'est pas deux, c'est pas brisé
+l'autre c'est le grand Soi
+En haut comme en bas.
+`,
   en: 'Breathe, the silence is here.\nThe heart already knows the way.\nLet the light come in.',
 };
 
@@ -87,6 +105,7 @@ function fullscreenError(error) {
 
 function zenApp() {
   const pendingArticleScrolls = new Map();
+  const articleSpotlights = new WeakMap();
   const languageResetTimers = new Map();
   const articleCache = new Map();
   let articleLoadController = null;
@@ -114,6 +133,45 @@ function zenApp() {
     }, 400));
   }
 
+  function articleSpotlightState(content) {
+    let state = articleSpotlights.get(content);
+    if (state) return state;
+
+    state = {
+      active: false,
+      frame: 0,
+      clientX: 0,
+      clientY: 0,
+    };
+    articleSpotlights.set(content, state);
+    return state;
+  }
+
+  function queueArticleSpotlightPosition(content, state) {
+    if (state.frame) return;
+
+    state.frame = window.requestAnimationFrame(() => {
+      state.frame = 0;
+      if (!state.active) return;
+
+      const bounds = content.getBoundingClientRect();
+      content.style.setProperty('--article-spotlight-x', `${state.clientX - bounds.left}px`);
+      content.style.setProperty('--article-spotlight-y', `${state.clientY - bounds.top}px`);
+    });
+  }
+
+  function clearArticleSpotlight(content) {
+    if (!content) return;
+
+    const state = articleSpotlights.get(content);
+    if (state?.frame) window.cancelAnimationFrame(state.frame);
+    if (state) {
+      state.active = false;
+      state.frame = 0;
+    }
+    content.classList.remove('is-spotlit');
+  }
+
   return {
     activeLanguage: '',
     darkMode: document.documentElement.dataset.theme === 'dark',
@@ -138,6 +196,11 @@ function zenApp() {
     toggleTheme() {
       this.darkMode = !this.darkMode;
       this.applyTheme(this.darkMode);
+
+      if (!this.darkMode) {
+        clearArticleSpotlight(this.$refs.articleFr?.querySelector('.article-content'));
+        clearArticleSpotlight(this.$refs.articleEn?.querySelector('.article-content'));
+      }
 
       try {
         localStorage.setItem('zen-theme', this.darkMode ? 'dark' : 'light');
@@ -356,7 +419,27 @@ function zenApp() {
         if (this.scrolledArticles[language] !== isScrolled) {
           this.scrolledArticles[language] = isScrolled;
         }
+
+        const content = article.querySelector('.article-content');
+        const spotlight = content && articleSpotlights.get(content);
+        if (spotlight?.active) queueArticleSpotlightPosition(content, spotlight);
       }));
+    },
+
+    moveArticleSpotlight(event) {
+      if (event.pointerType === 'touch' || document.documentElement.dataset.theme !== 'dark') return;
+
+      const content = event.currentTarget;
+      const state = articleSpotlightState(content);
+      state.active = true;
+      state.clientX = event.clientX;
+      state.clientY = event.clientY;
+      content.classList.add('is-spotlit');
+      queueArticleSpotlightPosition(content, state);
+    },
+
+    endArticleSpotlight(event) {
+      clearArticleSpotlight(event.currentTarget);
     },
 
     resetArticleScroll(language) {
@@ -369,7 +452,10 @@ function zenApp() {
       this.scrolledArticles[language] = false;
       this.$nextTick(() => {
         const article = this.$refs[language === 'fr' ? 'articleFr' : 'articleEn'];
-        if (article) article.scrollTop = 0;
+        if (article) {
+          clearArticleSpotlight(article.querySelector('.article-content'));
+          article.scrollTop = 0;
+        }
       });
     },
 
