@@ -18,7 +18,7 @@
 	<link rel="manifest" href="/site.webmanifest">
 	
 	<title>Le cœur Zen</title>
-	<meta name='description' content="De la noirceur à la lumière, de la tête jusqu'au cœur – transformer sa vision pour libérer son esprit, et sa magie!">
+	<meta name='description' content="L'expérience directe – de la noirceur à la lumière, de la tête jusqu'au cœur – transformer sa vision, libérer son esprit, et sa magie!">
 	<script>
 		try {
 			if (localStorage.getItem('zen-theme') === 'dark') {
@@ -58,6 +58,23 @@
 		<hr id='zen-sep'>
 		<p id='tagline'>Être, <em>c'est tout</em></p>
 	</div>
+	
+	<div id='subtitle' flow>
+		Libérer son esprit <img class='blue-morpho' src='images/blue-morpho.png'> et retrouver sa magie&hairsp;!
+
+	</div>
+	
+	<dialog id='presentation-fr' class='modal'><h2>L'expérience directe</h2>
+		Ici, pas de traditions, pas de maître, ni de rituels
+		Ici, y'a rien à expliquer, mais tout à découvrir
+		Ensemble, sans jugement, à juste vouloir grandir
+		À commencer enfin à voir la lumière briller
+		À retrouver l'espoir et guérir en profondeur 
+		De nos petites et grandes noirceurs.
+		
+		— Josef —
+	</dialog>
+	
 
 	<nav class='language-switcher' aria-label='Blog language'>
 		<button
@@ -101,6 +118,7 @@
 			</svg>
 		</button>
 	</div>
+	
 	<div
 		class='article-handle-wrap points-right'
 		:class="{ 'is-visible': isLanguageOpen('en') && hasSelectedArticle('en') }"
@@ -127,7 +145,7 @@
 		:class="{ 'is-open': isLanguageOpen('fr'), 'is-wide': hasSelectedArticle('fr') }"
 		:aria-hidden='!isLanguageOpen("fr")'
 		:inert='!isLanguageOpen("fr")'
-	>
+		>
 		<!-- #links to french articles  -->
 		<div
 			class='menu'
@@ -135,7 +153,7 @@
 			@click.capture="hasSelectedArticle('fr') && closeArticle()"
 			>
 			<header>
-				<span class='menu-title'>Articles</span>
+				<span class='menu-title' style='font-style:italic'>Paroles, paroles…</span>
 			</header>	
 			<ul>
 				<template x-for='(article, index) in articles.fr' :key='article.slug'>
@@ -182,7 +200,7 @@
 		:class="{ 'is-open': isLanguageOpen('en'), 'is-wide': hasSelectedArticle('en') }"
 		:aria-hidden='!isLanguageOpen("en")'
 		:inert='!isLanguageOpen("en")'
-	>
+		>
 		<article
 			x-ref='articleEn'
 			x-init='$el.addEventListener("scroll", () => queueArticleScroll("en", $el), { passive: true })'
@@ -208,11 +226,12 @@
 				x-html='articleContent("en")'
 			></div>
 		</article>
+		
 		<div
 			class='menu'
 			:class="{ 'is-collapsed': hasSelectedArticle('en') }"
 			@click.capture="hasSelectedArticle('en') && closeArticle()"
-		>
+			>
 			<header>
 				<span class='menu-title'>Articles</span>
 			</header>			
@@ -228,9 +247,10 @@
 	
 	<footer flow='col'>
 		<div id='egg' class='abs'></div>
-		<img src='./images/meditation.png' id='meditator' alt='person sitting in meditation'>
+		<img src='./images/meditation-new2.png' id='meditator' alt='person sitting in meditation'>
+		<div id='question-mark' class='abs' aria-hidden='true'>?</div>
 		
-		<img src='./images/meditator-chakras.png' alt='' id='meditator-chakras'>
+		<!-- <img src='./images/meditator-chakras.png' alt='' id='meditator-chakras'> -->
 		
 		<button
 			id='theme-toggle'
@@ -259,7 +279,7 @@
 			</svg>
 		</button>
 		<div>
-			<a href='mailto:contact@LeCoeurZen'><b>contact</b>@<b>LeCoeurZen</b>.com</a>
+			<a href='mailto:contact@lecoeurzen.com'><b>contact</b>@<b>LeCoeurZen</b>.com</a>
 		</div>
 	</footer>
 	

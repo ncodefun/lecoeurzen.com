@@ -553,3 +553,12 @@ function zenApp() {
 }
 
 window.zenApp = zenApp;
+
+const presentationModal = document.getElementById('presentation-fr');
+document.getElementById('egg')?.addEventListener('click', () => presentationModal?.showModal());
+presentationModal?.addEventListener('click', (event) => {
+  const rect = presentationModal.getBoundingClientRect();
+  const inside = event.clientX >= rect.left && event.clientX <= rect.right
+    && event.clientY >= rect.top && event.clientY <= rect.bottom;
+  if (!inside) presentationModal.close();
+});
