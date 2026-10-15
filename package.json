@@ -3,14 +3,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "node build-articles.js"
-  },
-  "dependencies": {
-    "js-yaml": "^4.1.0",
-    "marked": "^16.2.1"
-  },
-  "devDependencies": {
-    "vite": "^7.1.2"
+    "dev": "vite"
   }
 }
