@@ -5,6 +5,7 @@ html {
 	font: 2.7dvh/1.5 Montserrat, sans-serif;
 	background: light-dark(#c9c9c9, #333);
 	color-scheme: light;
+	-webkit-tap-highlight-color: transparent; /* inherited: no blue flash on tap */
 }
 html[data-theme='dark'] {
 	color-scheme: dark;
