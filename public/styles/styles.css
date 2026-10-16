@@ -44,7 +44,7 @@ p {
 	margin: 0;
 }
 #logo {
-	margin-top: 2rem;
+	margin-top: 2.76rem;
 	cursor: pointer;
 	transition: opacity .5s ease;
 	& > * {
@@ -84,7 +84,7 @@ p {
 	align-items: center;
 	justify-content: center;
 	box-shadow: 0 3px 14px #0001;
-	margin-top: 2.6rem;
+	margin-top: 2.3rem;
 	max-width: 95%;
 	line-height: 1.23;
 	font-weight: 360;
