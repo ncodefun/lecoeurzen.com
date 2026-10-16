@@ -10,7 +10,12 @@
     "headers": [
       {
         "source": "**/*.@(js|css|html|json)",
-        "headers": [ { "key": "Cache-Control", "value": "max-age=60" } ]
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=60"
+          }
+        ]
       }
     ]
   }

@@ -72,3 +72,8 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
+
+# Firebase agent skills (installed by `firebase init`, reinstallable)
+.agents/
+.claude/skills/
+skills-lock.json
