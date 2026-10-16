@@ -9,9 +9,9 @@ html {
 html[data-theme='dark'] {
 	color-scheme: dark;
 }
-@media (max-aspect-ratio: 0.5/1) {
+@media (max-aspect-ratio: 0.4/1) {
 	html {
-		font-size: calc(2.7vw * (1 / 0.5));
+		font-size: calc(2.7vw * (1 / 0.4));
 	}
 }
 @media (max-aspect-ratio: .8/1) {
@@ -70,11 +70,13 @@ p {
 	left: -.16rem;
 }
 #tagline {
+	position: relative;
+	left: -0.16rem;
 	padding: .15rem 1rem;
 	font-size: 1.1rem;
 	font-weight: 440;
 	line-height: 1.25;
-	word-spacing: .15em;
+	word-spacing: .12em;
 }
 #subtitle {
 	display: flex;
@@ -118,7 +120,7 @@ p {
 		white-space: nowrap;
 	}
 }
-@media (max-aspect-ratio: 3 / 4) {
+/* @media (max-aspect-ratio: 3 / 4) { */
 	#subtitle {
 		flex-direction: column;
 		line-height: 1.4;
@@ -133,7 +135,7 @@ p {
 			z-index: -1;
 		}
 	}
-}
+/* } */
 
 /* The circle sits at the bottom of main (margin-top: auto) and sinks 5rem below
    it (negative margin-bottom, clipped by main). Its children share a single
@@ -156,21 +158,50 @@ footer {
 	}
 	a {
 		color: hsl(189, 29%, 32%);
-		transition: color .6s;
 		font-weight: 500;
 		font-style: italic;
 		b {
 			font-weight: 600;
 			letter-spacing: .5px;
 		}
-		&:hover {
-			transition: none;
-			color: hsl(188, 21%, 42%);
-		}
 	}
 }
 #contact {
 	align-self: center;
+	position: relative;
+}
+/* Touch devices have no hover, so a tap on this icon shows the QR code instead.
+   It hangs off the right of the link so the link stays centered. */
+#qr-toggle {
+	position: absolute;
+	left: 111%;
+	top: 57%;
+	translate: .35rem -50%;
+	display: grid;
+	place-items: center;
+	padding: .15rem;
+	border: 0;
+	background: none;
+	color: hsl(189, 29%, 32%);
+	cursor: pointer;
+	svg {
+		width: 1.1rem;
+		height: 1.1rem;
+	}
+}
+#contact:has(#qr-toggle[aria-expanded='true']) + #telegram {
+	opacity: 1;
+	translate: 0 0;
+}
+#telegram {
+	pointer-events: none;
+	position: absolute;
+	height: 15rem;
+	bottom: 3.25rem;
+	z-index: 2;
+	opacity: 0;
+	translate: 0 2rem;
+	transition: opacity .6s ease, translate .6s ease;
 }
 #egg {
 	z-index: 1;
@@ -189,13 +220,10 @@ footer {
 	height: 12rem;
 	margin-top: -9.15rem;
 	filter: brightness(1) contrast(.76) sepia(1) drop-shadow(rgb(255, 255, 255) 2px 4px 11px);
-	opacity: .52;
+	opacity: .6;
 	transition: opacity .23s ease, filter .23s ease;
 }
-#egg:hover ~ #meditator {
-	filter: brightness(1) contrast(1) sepia(.5) drop-shadow(rgb(255, 255, 255) 2px 4px 11px);
-	opacity: .76;
-}
+
 #question-mark {
 	display: grid;
 	place-items: center;
@@ -216,10 +244,7 @@ footer {
 	rotate: -8deg;
 	transition: opacity .3s ease, scale .3s ease;
 }
-#egg:hover ~ #question-mark {
-	opacity: .9;
-	scale: 1;
-}
+
 /* moon icon */
 #theme-toggle {
 	appearance: none;
@@ -234,11 +259,7 @@ footer {
 	opacity: .5;
 	transition: opacity .2s ease, color .2s ease, border-color .2s ease, background-color .2s ease, translate .12s ease;
 
-	&:hover {
-		opacity: .9;
-		border-color: #315c5870;
-		background-color: #f7efdb38;
-	}
+
 	&:active {
 		translate: 0 1px;
 	}
@@ -323,6 +344,9 @@ html[data-theme='dark'] {
 	}
 	footer {
 		background: linear-gradient(to bottom,  #ffedcaa1, #ffedca33, #ffedca00);
+		#qr-toggle {
+			color: #8fb9b1;
+		}
 		a {
 			color: #8fb9b1;
 			font-weight: 325;
@@ -333,7 +357,13 @@ html[data-theme='dark'] {
 		}
 	}
 	#meditator {
+		opacity: .86;
 		filter: saturate(0.6) brightness(1.1) contrast(0.76)  drop-shadow(.1rem .2rem .76rem rgba(255, 255, 203, 0.28));
+	}
+	#egg:hover ~ #meditator {
+		opacity: .92;
+		filter: saturate(0.7) brightness(1.1) contrast(0.76)  drop-shadow(.1rem .2rem .26rem rgba(255, 255, 203, 0.38));
+
 	}
 	#theme-toggle {
 		color: #b6d0ca;
@@ -354,5 +384,28 @@ html[data-theme='dark'] {
 	::selection {
 		background-color: #79aca233;
 		color: white;
+	}
+}
+
+@media (hover: hover) and (pointer: fine) {	
+	#qr-toggle {
+		display: none;
+	}
+	#contact:has(a:hover) + #telegram {
+		opacity: 1;
+		translate: 0 0;
+	}
+	#egg:hover ~ #meditator {
+		filter: brightness(1) contrast(1) sepia(.5) drop-shadow(rgb(255, 255, 255) 2px 4px 11px);
+		opacity: .76;
+	}
+	#egg:hover ~ #question-mark {
+		opacity: .9;
+		scale: 1;
+	}
+	#theme-toggle:hover {
+		opacity: .9;
+		border-color: #315c5870;
+		background-color: #f7efdb38;
 	}
 }

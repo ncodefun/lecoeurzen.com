@@ -40,3 +40,12 @@ presentationModal.addEventListener('click', (event) => {
     && event.clientY >= rect.top && event.clientY <= rect.bottom;
   if (!inside) presentationModal.close();
 });
+
+const qrToggle = document.getElementById('qr-toggle');
+qrToggle.addEventListener('click', () => {
+  const isOpen = qrToggle.getAttribute('aria-expanded') === 'true';
+  qrToggle.setAttribute('aria-expanded', String(!isOpen));
+});
+document.addEventListener('click', (event) => {
+  if (!qrToggle.contains(event.target)) qrToggle.setAttribute('aria-expanded', 'false');
+});
