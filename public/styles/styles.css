@@ -377,6 +377,12 @@ footer {
 	border: 1px solid #fff7;
 	margin-top: 1rem;
 }
+#vision-link {
+	display: flex;
+	align-items: baseline;
+	justify-content: start;
+	gap: 2rem;
+}
 /* Text pages (presentation.html): a readable column under a smaller logo. */
 .page {
 	/* Background sized to the viewport and stays put while the content scrolls. */
