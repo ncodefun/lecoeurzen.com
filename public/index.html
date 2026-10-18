@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang='fr'>
+<html lang='fr-CA'>
 <head>
 	<meta charset='UTF-8'>
 	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
@@ -17,9 +17,52 @@
 	>
 	<link rel="manifest" href="/site.webmanifest">
 
-	<title>Le cœur Zen</title>
-	<meta name='description' content="L'expérience directe – de la noirceur à la lumière, de la tête jusqu'au cœur – transformer sa vision, libérer son esprit, et sa magie!">
-	<script>
+	<title>Le cœur Zen – Être, c'est tout · Libérer son esprit et sa magie</title>
+	<meta name='description' content="Le cœur Zen – accompagnement individuel contemplatif, sans jugement, avec José. Par Zoom, ou à Montréal (Plateau, Mile-End) en saison estivale. Première rencontre gratuite.">
+	<link rel='canonical' href='https://lecoeurzen.com/'>
+	<meta name='author' content='José Roux'>
+	<meta name='robots' content='index, follow, max-image-preview:large'>
+	<meta name='theme-color' content='#c8f5ff'>
+
+	<meta property='og:type' content='website'>
+	<meta property='og:site_name' content='Le cœur Zen'>
+	<meta property='og:locale' content='fr_CA'>
+	<meta property='og:url' content='https://lecoeurzen.com/'>
+	<meta property='og:title' content="Le cœur Zen – Être, c'est tout">
+	<meta property='og:description' content="Le cœur Zen – accompagnement individuel contemplatif, sans jugement, avec José. Par Zoom, ou à Montréal (Plateau, Mile-End) en saison estival. Première rencontre gratuite.">
+	<meta property='og:image' content='https://lecoeurzen.com/images/og-image.jpg'>
+	<meta property='og:image:width' content='1200'>
+	<meta property='og:image:height' content='630'>
+	<meta property='og:image:alt' content="Le cœur Zen – Être, c'est tout. Une personne assise en méditation.">
+	<meta name='twitter:card' content='summary_large_image'>
+
+	<script type='application/ld+json'>
+	{
+		"@context": "https://schema.org",
+		"@graph": [
+			{
+				"@type": "WebSite",
+				"@id": "https://lecoeurzen.com/#website",
+				"url": "https://lecoeurzen.com/",
+				"name": "Le cœur Zen",
+				"alternateName": "Le Coeur Zen",
+				"description": "Le cœur Zen – accompagnement individuel contemplatif, sans jugement, avec José. Par Zoom, ou à Montréal (Plateau, Mile-End) en saison estivale. Première rencontre gratuite.",
+				"inLanguage": "fr-CA",
+				"publisher": { "@id": "https://lecoeurzen.com/#jose" }
+			},
+			{
+				"@type": "Person",
+				"@id": "https://lecoeurzen.com/#jose",
+				"name": "José Roux",
+				"url": "https://lecoeurzen.com/presentation",
+				"address": { "@type": "PostalAddress", "addressLocality": "Montréal", "addressRegion": "QC", "addressCountry": "CA" },
+				"sameAs": ["https://t.me/joseroux"]
+			}
+		]
+	}
+	</script>
+
+<script>
 		try {
 			if (localStorage.getItem('zen-theme') === 'dark') {
 				document.documentElement.dataset.theme = 'dark';
@@ -30,10 +73,11 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link
-		href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900"
+		href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
 		rel="stylesheet"
 	>
 	<link rel='stylesheet' href='./styles/styles.css'>
+	<script type='module' src='./scripts/theme.js'></script>
 	<script defer src='./scripts/app.js'></script>
 </head>
 <body>
@@ -49,21 +93,38 @@
 	</div>
 
 	<div id='subtitle'>
-		Libérer son esprit <img class='blue-morpho' src='images/blue-morpho.png' alt='Papillon bleu'> …et sa magie
+		<a href='/presentation'>Libérer son esprit <img class='blue-morpho' src='images/blue-morpho.webp' width='128' height='128' alt='Papillon morpho bleu'> …et sa magie</a>
+		<svg class='arrow' viewBox='0 0 24 14' aria-hidden='true'><path d='M1 7h21M16 1.5 22 7l-6 5.5' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>
 	</div>
 
 	<!-- <div id='subtitle2'></div> -->
 
-	<dialog id='presentation-fr' class='modal'><h2>L'expérience directe</h2>
-		La transformation n'est pas un projet, c'est une façon de vivre…
+	<dialog id='presentation-fr' class='modal'>
+		<h2>L'expérience directe</h2>
 		
-		— José —
+		<p>Faire face à son mal intérieur
+		En dépit de la peur ou de la douleur
+		Aller revisiter ses croyances limitantes 
+		Accueillir ses émotions réprimées
+		Sous un jour nouveau, bien accompagné
+		Pour enfin retrouver sa clarté
+		La magie d'aimer, de vivre sans condition
+		Et de se nourrir d'un espoir sans limite…</p>
+		
+		<p><strong><span class='line'>Pour se retrouver, se connaitre,</span> <span class='line'>se libérer et se recréer.</span></strong></p>
+
+		<p><strong>La transformation, ce n'est pas un projet
+		C'est une façon de vivre, <em>libre&hairsp;!</em>
+		Libre d'être ce qu'on veut
+		Au-delà de ce qu'on nous a appris à croire.</strong></p>
+		<strong class='heart'>💖</strong>
+		<p>— José —</p>
 	</dialog>
 
 	<footer>
 		<div id='egg'></div>
-		<img src='./images/meditation-new2.png' id='meditator' alt='person sitting in meditation'>
-		<div id='question-mark' aria-hidden='true'>?</div>
+		<img src='./images/meditation.webp' id='meditator' width='463' height='600' alt='Personne assise en méditation'>
+		<div id='question-mark' aria-hidden='true'>💖</div>
 
 		<button
 			id='theme-toggle'
@@ -113,7 +174,7 @@
 				</svg>
 			</button>
 		</div>
-		<img id='telegram' src='images/telegram-link-JoseRoux.png' alt=''>
+		<img id='telegram' src='images/telegram-link-JoseRoux.webp' width='728' height='720' alt='Code QR Telegram de José Roux'>
 	</footer>
 
 </main>

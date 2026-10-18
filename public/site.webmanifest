@@ -1,8 +1,12 @@
 {
   "name": "Le cœur Zen",
   "short_name": "Cœur Zen",
+  "description": "Accompagnement individuel contemplatif, sans jugement, avec José – à Montréal ou par Zoom.",
+  "lang": "fr-CA",
   "start_url": "/",
   "display": "standalone",
+  "theme_color": "#c8f5ff",
+  "background_color": "#c9c9c9",
   "icons": [
     {
       "src": "/images/icons/android-chrome-192x192.png",

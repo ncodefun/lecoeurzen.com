@@ -3,6 +3,7 @@
 }
 html {
 	font: 2.7dvh/1.5 Montserrat, sans-serif;
+	color:hsl(191, 21%, 25%);
 	background: light-dark(#c9c9c9, #333);
 	color-scheme: light;
 	-webkit-tap-highlight-color: transparent; /* inherited: no blue flash on tap */
@@ -43,6 +44,11 @@ main {
 p {
 	margin: 0;
 }
+/* Images are sized by height in CSS; their width/height attributes only
+   reserve the aspect ratio before they load. */
+img {
+	width: auto;
+}
 #logo {
 	margin-top: 2.76rem;
 	cursor: pointer;
@@ -50,7 +56,7 @@ p {
 	& > * {
 		pointer-events: none;
 	}
-	h1 {
+	h1, .brand {
 		margin: 0;
 		font-size: 4rem;
 		font-weight: 200;
@@ -80,9 +86,7 @@ p {
 	word-spacing: .12em;
 }
 #subtitle {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	
 	box-shadow: 0 3px 14px #0001;
 	margin-top: 2.3rem;
 	max-width: 95%;
@@ -94,13 +98,35 @@ p {
 	border-radius: 3rem;
 	corner-shape: squircle;
 	background: linear-gradient(12deg, #fff4, hsla(78, 100%, 83%, .125));
-
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	a {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	
+		color: inherit;
+		&:not(:hover) {
+			
+			text-decoration: none;
+		}
+		text-decoration-color: ;
+	}
 	.blue-morpho {
 		height: 2rem;
 		line-height: 0;
 		margin: 0 .65rem 0 .5rem;
 		position: relative;
 		left: .12rem;
+	}
+	.arrow {
+		position: absolute;
+		right: .62rem;
+		bottom: .62rem;
+		width: 1.2rem;
+		height: auto;
 	}
 }
 #subtitle2 {
@@ -225,6 +251,7 @@ footer {
 	transition: opacity .23s ease, filter .23s ease;
 }
 
+
 #question-mark {
 	display: grid;
 	place-items: center;
@@ -232,17 +259,17 @@ footer {
 	height: 12rem;
 	margin-top: -8.6rem;
 	pointer-events: none;
-	font-family: Georgia, 'Times New Roman', serif;
+	/* font-family: Georgia, 'Times New Roman', serif;
 	font-style: italic;
-	font-weight: 700;
-	font-size: 4rem;
+	font-weight: 700; */
+	font-size: 2rem;
 	line-height: 1;
-	color: #fffbe0;
-	-webkit-text-stroke: 1px #d9b84a;
+	/* color: #fffbe0; */
+	/* -webkit-text-stroke: 1px #d9b84a; */
 	text-shadow: 0 0 .6rem #fff6a8, 0 0 1.6rem #f6ff00aa, 0 .15rem .5rem #0004;
 	opacity: 0;
 	scale: .8;
-	rotate: -8deg;
+	/* rotate: -8deg; */
 	transition: opacity .3s ease, scale .3s ease;
 }
 
@@ -275,7 +302,7 @@ footer {
 	outline: none;
 	max-width: 96vw;
 	margin: auto;
-	padding: 2rem 1.75rem 1.75rem;
+	padding: 2rem 1.75rem 0rem;
 	border: 1px solid #fffa;
 	border-radius: 1.5rem;
 	corner-shape: squircle;
@@ -310,12 +337,124 @@ footer {
 		}
 	}
 }
-#presentation-fr {
-	white-space: pre-line;
+#presentation-fr, .poem {
 	text-align: center;
-	h2 {
+	line-height: 1.6;
+	p {
+		white-space: pre-line;
+		margin: 0 0 1em;
+	}
+	h2,h3 {
 		font-size: 1em;
 		font-style: normal;
+	}
+	h2 {
+		font-weight: 720;
+		margin: 0 0 1em;
+	}
+	h3 {
+		font-weight: 550;
+		margin: 1em 0 0;
+	}
+	strong {
+		font-size: .92em;
+		font-weight: 550;
+		font-style: normal;
+	}
+	span.line {
+		white-space: nowrap;
+		
+	}
+	.heart {
+		font-size: 1.1em;
+		position: relative;
+		top: -.5rem;
+	}
+}
+
+/* Text pages (presentation.html): a readable column under a smaller logo. */
+.page {
+	/* Background sized to the viewport and stays put while the content scrolls. */
+	background-attachment: fixed;
+	a {
+		color: hsl(189, 29%, 32%);
+	}
+	#logo {
+		display: block;
+		zoom: .62;
+		color: inherit;
+		text-decoration: none;
+	}
+	article {
+		width: min(34em, 100% - 32px);
+		margin: 2rem auto 0;
+		/* font-size: .8rem; */
+		line-height: 1.6;
+		text-align: left;
+	}
+	h1 {
+		margin: 0 0 1.2em;
+		font-size: 1.6em;
+		font-weight: 300;
+		text-align: center;
+	}
+	h2 {
+		margin: 2.2em 0 .6em;
+		font-size: 1.1em;
+		font-weight: 600;
+	}
+	section p + p {
+		margin-top: .8em;
+	}
+	.poem {
+		font-style: italic;
+	}
+	details {
+		margin: .6em 0;
+	}
+	summary {
+		cursor: pointer;
+		font-weight: 500;
+		user-select: none;
+		-webkit-user-select: none;
+	}
+	.note {
+		font-size: .85em;
+		opacity: .8;
+	}
+	/* Placeholder text, to be replaced before the page is indexed. */
+	.todo {
+		padding: .5em .75em;
+		border: 1px dashed currentColor;
+		border-radius: .5em;
+		opacity: .6;
+	}
+	#me-contacter {
+		text-align: center;
+		img {
+			display: block;
+			height: 12em;
+			margin: 1em auto;
+		}
+		.heart {
+			font-size: 1.1em;
+		}
+	}
+}
+/* Overrides the home page's footer circle. */
+#page-footer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1.5rem;
+	width: auto;
+	height: auto;
+	margin: auto 0 0;
+	padding: 3rem 0 1.5rem;
+	border: 0;
+	border-radius: 0;
+	background: none;
+	#theme-toggle {
 		margin: 0;
 	}
 }
@@ -381,6 +520,9 @@ html[data-theme='dark'] {
 		&:focus-visible {
 			outline-color: #a9cec6;
 		}
+	}
+	.page a {
+		color: #8fb9b1;
 	}
 	::selection {
 		background-color: #79aca233;

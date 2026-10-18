@@ -1,24 +1,5 @@
 const root = document.documentElement;
-const themeToggle = document.getElementById('theme-toggle');
 const presentationModal = document.getElementById('presentation-fr');
-
-function applyTheme(isDark) {
-  root.dataset.theme = isDark ? 'dark' : 'light';
-  themeToggle.setAttribute('aria-pressed', String(isDark));
-}
-
-applyTheme(root.dataset.theme === 'dark');
-
-themeToggle.addEventListener('click', () => {
-  const isDark = root.dataset.theme !== 'dark';
-  applyTheme(isDark);
-
-  try {
-    localStorage.setItem('zen-theme', isDark ? 'dark' : 'light');
-  } catch {
-    // The theme still works when storage is unavailable.
-  }
-});
 
 document.getElementById('logo').addEventListener('click', async () => {
   if (document.fullscreenElement) {

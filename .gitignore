@@ -11,7 +11,7 @@ z-old
 texts
 .vscode
 doc
-
+/images
 # Firebase cache
 .firebase/
 
