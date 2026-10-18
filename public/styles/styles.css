@@ -441,6 +441,164 @@ footer {
 		}
 	}
 }
+/* Article viewer (vision.html): sidebar list + markdown article + prev/next arrows.
+   The root font scales with the viewport height, so the two-column layout
+   switches on aspect ratio rather than width. */
+#vision-layout {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	margin-top: 2rem;
+}
+#article-list {
+	width: min(34em, 100% - 32px);
+	text-align: left;
+	font-size: .85em;
+	h2 {
+		margin: 0 0 .5em;
+		font-size: .8em;
+		font-weight: 600;
+		letter-spacing: .12em;
+		text-transform: uppercase;
+		opacity: .7;
+	}
+	ol {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	a {
+		display: block;
+		padding: .3em .7em;
+		border-left: 2px solid transparent;
+		border-radius: 0 .4em .4em 0;
+		text-decoration: none;
+		&:hover {
+			background: #fff3;
+		}
+		&[aria-current='page'] {
+			border-left-color: currentColor;
+			background: #fff4;
+			font-weight: 600;
+		}
+	}
+}
+.vision {
+	article {
+		margin-top: 2rem;
+		> header {
+			margin-bottom: 1.6em;
+			text-align: center;
+		}
+		h1 {
+			margin-bottom: .3em;
+		}
+	}
+	#article-date {
+		font-size: .8em;
+		opacity: .7;
+	}
+	#article-content {
+		p + p {
+			margin-top: .8em;
+		}
+		h2:first-child {
+			margin-top: 0;
+		}
+		img {
+			max-width: 100%;
+			height: auto;
+		}
+		blockquote {
+			margin: 1em 0;
+			padding-left: 1em;
+			border-left: 2px solid currentColor;
+			font-style: italic;
+		}
+		pre {
+			overflow-x: auto;
+			padding: .8em;
+			border-radius: .4em;
+			background: #fff3;
+		}
+		hr {
+			margin: 2em auto;
+			width: 6em;
+			border: 0;
+			border-top: 1px solid currentColor;
+			opacity: .4;
+		}
+	}
+	.article-info {
+		text-align: center;
+		opacity: .7;
+	}
+}
+#article-pager {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-top: 3em;
+	padding-top: 1em;
+	border-top: 1px solid #315c5833;
+	font-size: .85em;
+	a {
+		display: flex;
+		align-items: center;
+		gap: .5em;
+		max-width: 48%;
+		text-decoration: none;
+		&:hover .pager-title {
+			text-decoration: underline;
+		}
+		&[hidden] {
+			display: none;
+		}
+	}
+	#next-article {
+		margin-left: auto;
+		text-align: right;
+	}
+	.pager-arrow {
+		font-size: 1.6em;
+		line-height: 1;
+	}
+}
+@media (min-aspect-ratio: 1.65/1) {
+	/* The article takes the centre column, so it stays centred on the page;
+	   the sidebar sits in the left column, pushed against the article. */
+	#vision-layout {
+		display: grid;
+		grid-template-columns: 1fr auto 1fr;
+		align-items: start;
+		column-gap: 3rem;
+	}
+	#article-list {
+		grid-column: 1;
+		justify-self: end;
+		position: sticky;
+		top: 2rem;
+		width: 12em;
+		margin-top: 2rem;
+	}
+	.vision article {
+		grid-column: 2;
+		width: 34em;
+		margin: 2rem 0 0;
+	}
+}
+html[data-theme='dark'] {
+	#article-list a:hover,
+	#article-list a[aria-current='page'],
+	.vision #article-content pre {
+		background: #ffffff0d;
+	}
+	#article-pager {
+		border-top-color: #c0d9d12b;
+	}
+}
+
 /* Overrides the home page's footer circle. */
 #page-footer {
 	display: flex;
@@ -454,8 +612,18 @@ footer {
 	border: 0;
 	border-radius: 0;
 	background: none;
-	#theme-toggle {
-		margin: 0;
+}
+/* Text pages: toggle at 2/3 size in the top-right corner, scrolling with the page. */
+.page #theme-toggle {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	margin: 0;
+	padding: .165rem;
+	svg {
+		display: block;
+		width: 1.33rem;
+		height: 1.33rem;
 	}
 }
 

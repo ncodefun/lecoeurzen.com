@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang='fr-CA'>
+<head>
+	<meta charset='UTF-8'>
+	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+	<link rel="icon" href="/images/icons/favicon.ico" sizes="any">
+	<link
+		rel="icon"
+		type="image/png"
+		sizes="192x192"
+		href="/images/icons/android-chrome-192x192.png"
+	>
+	<link
+		rel="apple-touch-icon"
+		sizes="180x180"
+		href="/images/icons/apple-touch-icon.png"
+	>
+	<link rel="manifest" href="/site.webmanifest">
+
+	<title>Vision · Le cœur Zen</title>
+	<meta name='description' content="Textes et réflexions de José Roux – Le cœur Zen.">
+	<link rel='canonical' href='https://lecoeurzen.com/vision'>
+	<meta name='author' content='José Roux'>
+	<meta name='robots' content='index, follow, max-image-preview:large'>
+	<meta name='theme-color' content='#c8f5ff'>
+
+	<meta property='og:type' content='website'>
+	<meta property='og:site_name' content='Le cœur Zen'>
+	<meta property='og:locale' content='fr_CA'>
+	<meta property='og:url' content='https://lecoeurzen.com/vision'>
+	<meta property='og:title' content='Vision · Le cœur Zen'>
+	<meta property='og:description' content="Textes et réflexions de José Roux – Le cœur Zen.">
+	<meta property='og:image' content='https://lecoeurzen.com/images/og-image.jpg'>
+	<meta property='og:image:width' content='1200'>
+	<meta property='og:image:height' content='630'>
+	<meta property='og:image:alt' content="Le cœur Zen – Être, c'est tout. Une personne assise en méditation.">
+	<meta name='twitter:card' content='summary_large_image'>
+
+	<script>
+		try {
+			if (localStorage.getItem('zen-theme') === 'dark') {
+				document.documentElement.dataset.theme = 'dark';
+			}
+		} catch {}
+	</script>
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+		rel="stylesheet"
+	>
+	<link rel='stylesheet' href='/styles/styles.css'>
+	<script defer src='https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js'></script>
+	<script defer src='https://cdn.jsdelivr.net/npm/marked@16.4.2/lib/marked.umd.js'></script>
+	<script defer src='/scripts/vision.js'></script>
+	<script type='module' src='/scripts/theme.js'></script>
+</head>
+<body class='page vision'>
+<main id='page'>
+	<button
+		id='theme-toggle'
+		type='button'
+		aria-label='Basculer entre les modes clair et sombre'
+		aria-pressed='false'
+		>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			width="2rem"
+			height="2rem"
+			viewBox="0 0 24 24"
+			aria-hidden="true"
+			>
+			<path d="M0 0h24v24H0z" fill="none" />
+			<path
+				fill="currentColor"
+				stroke="currentColor"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				stroke-width="2"
+				d="M9.353 3C5.849 4.408 3 7.463 3 11.47A9.53 9.53 0 0 0 12.53 21c4.007 0 7.062-2.849 8.47-6.353C8.17 17.065 8.14 8.14 9.353 3"
+			/>
+		</svg>
+	</button>
+
+	<header>
+		<a id='logo' href='/' aria-label="Le cœur Zen – retour à l'accueil">
+			<div class='brand'>
+				<small>Le cœur</small>
+				ZEN
+			</div>
+			<hr id='zen-sep'>
+			<p id='tagline'>Être, <em>c'est tout</em></p>
+		</a>
+	</header>
+
+	<div id='vision-layout'>
+		<!-- Article list: one <a data-file='file.md'> per article in public/articles/.
+		     The order here is the order of the prev/next arrows. -->
+		<nav id='article-list' aria-label='Articles'>
+			<h2>Articles</h2>
+			<ol>
+				<li><a data-file='exemple.md'>Exemple</a></li>
+			</ol>
+		</nav>
+
+		<article id='article'>
+			<header>
+				<h1 id='article-title'></h1>
+				<time id='article-date' hidden></time>
+			</header>
+			<div id='article-content' aria-live='polite'></div>
+
+			<nav id='article-pager' aria-label='Pagination'>
+				<a id='prev-article' rel='prev' hidden>
+					<span class='pager-arrow' aria-hidden='true'>←</span>
+					<span class='pager-title'></span>
+				</a>
+				<a id='next-article' rel='next' hidden>
+					<span class='pager-title'></span>
+					<span class='pager-arrow' aria-hidden='true'>→</span>
+				</a>
+			</nav>
+		</article>
+	</div>
+
+	<footer id='page-footer'>
+		<a href='/'>← Le cœur Zen</a>
+	</footer>
+
+</main>
+</body>
+</html>
