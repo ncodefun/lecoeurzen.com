@@ -9,7 +9,7 @@ date: 2026-10-17
 
 Ceci est un article d'exemple, écrit en **Markdown** et chargé dans `vision.html`.
 
-Le bloc entre les `---` en haut du fichier (le *frontmatter*) est optionnel&nbsp;: `title` remplace le titre de la barre latérale, et `date` s'affiche sous le titre.
+Le bloc entre les `---` en haut du fichier (le *frontmatter*) est optionnel&hairsp;: `title` remplace le titre de la barre latérale, et `date` s'affiche sous le titre.
 
 > Être, c'est tout.
 

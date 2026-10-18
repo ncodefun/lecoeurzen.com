@@ -17,13 +17,14 @@ Static site in French (fr-CA) for José Roux's contemplative coaching.
 - `presentation.html`: long text page. Its FAQ is mirrored in the `FAQPage` JSON-LD in `<head>`, so keep both in sync.
 - `vision.html`: Markdown article viewer (`scripts/vision.js`).
   - Articles are `public/articles/*.md`. Front matter is optional (`title`, `date`). A leading `# heading` becomes the page title.
+  - `frenchSpacing()` in `vision.js` adds the hair space before `! ? : ;` in rendered articles and sidebar titles, so `.md` files can be written without it (`Bonjour!`). It skips code and `10:30`-style colons.
   - The user keeps the sidebar list by hand: `<li><a data-file='name.md'>Title</a></li>`. Its order sets the prev/next arrows, and the URL is `vision.html#name`.
   - Only `/vision` (the first article) can be indexed by Google. Articles reach AI tools through `llms.txt`.
 - Every page uses `styles/styles.css` and `scripts/theme.js`. The `<head>` boilerplate (favicons, OG tags, inline theme script) is copied page to page. Use `presentation.html` as the template for a new text page (`<body class='page'>`).
 
 ## Conventions
 
-- HTML: tabs, single-quoted attributes. French typography: `&hairsp;` before `? ! ;`, `&nbsp;` inside « guillemets ».
+- HTML: tabs, single-quoted attributes. French typography: `&hairsp;` before `? ! : ;`, `&thinsp;` inside « guillemets ».
 - CSS: one global stylesheet with native nesting. The root font size follows the viewport height (`2.7dvh`), so layout breakpoints use `aspect-ratio`, not width. Dark mode is `html[data-theme='dark']`: the choice is saved in `localStorage` as `zen-theme`, which an inline `<head>` script reads before the page draws. Light/dark colors use `light-dark()`.
 - Keep the JS small and vanilla. Prefer plain HTML that the user can edit to generated content.
 

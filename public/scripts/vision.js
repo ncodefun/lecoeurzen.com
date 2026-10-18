@@ -14,9 +14,33 @@ const baseTitle = document.title;
 const articleCache = new Map();
 let loadController = null;
 
+// French typography: a hair space before ! ? : ; when the article has none
+// ("Bonjour!" → "Bonjour !"). : and ; only count when followed by a space or
+// the end of the text, so 10:30 and https:// are left alone. Code is skipped.
+const SPACE_BEFORE_PUNCTUATION = /([^\s?!:;])([?!]|[:;](?=\s|$))/g;
+const NO_SPACING_ELEMENTS = 'code, pre, kbd, samp';
+
+function frenchSpacing(html) {
+  const template = document.createElement('template');
+  template.innerHTML = html;
+  const walker = document.createTreeWalker(template.content, NodeFilter.SHOW_TEXT);
+  // The previous text node's last character, so "*vrai*!" is spaced too.
+  let previousChar = ' ';
+  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+    if (!node.parentElement?.closest(NO_SPACING_ELEMENTS)) {
+      node.data = (previousChar + node.data)
+        .replace(SPACE_BEFORE_PUNCTUATION, '$1\u200A$2')
+        .slice(1);
+    }
+    previousChar = node.data.at(-1) ?? previousChar;
+  }
+  return template.innerHTML;
+}
+
 const links = [...sidebar.querySelectorAll('a[data-file]')];
 for (const link of links) {
   link.href = `#${slugOf(link)}`;
+  link.innerHTML = frenchSpacing(link.innerHTML);
 }
 
 function slugOf(link) {
@@ -38,7 +62,7 @@ function parseArticleSource(source) {
     throw new Error('Markdown dependencies are unavailable.');
   }
 
-  const normalizedSource = source.replace(/^﻿/, '');
+  const normalizedSource = source.replace(/^\uFEFF/, '');
   const match = normalizedSource.match(
     /^---[\t ]*\r?\n([\s\S]*?)\r?\n---[\t ]*(?:\r?\n|$)([\s\S]*)$/,
   );
@@ -55,13 +79,13 @@ function parseArticleSource(source) {
   const tokens = window.marked.lexer(markdown.trimStart());
   let heading = '';
   if (tokens[0]?.type === 'heading' && tokens[0].depth === 1) {
-    heading = tokens.shift().text;
+    heading = frenchSpacing(window.marked.parseInline(tokens.shift().text));
   }
 
   return {
     metadata,
     heading,
-    content: window.marked.parser(tokens),
+    content: frenchSpacing(window.marked.parser(tokens)),
   };
 }
 
@@ -123,11 +147,11 @@ async function showArticle(index) {
     if (controller !== loadController) return;
 
     const { metadata } = article;
-    const title = (typeof metadata.title === 'string' && metadata.title.trim())
-      || article.heading
-      || fallbackTitle;
-    titleEl.textContent = title;
-    document.title = `${title} – ${baseTitle}`;
+    const metadataTitle = typeof metadata.title === 'string' ? metadata.title.trim() : '';
+    titleEl.innerHTML = metadataTitle
+      ? frenchSpacing(escapeHtml(metadataTitle))
+      : article.heading || escapeHtml(fallbackTitle);
+    document.title = `${titleEl.textContent} – ${baseTitle}`;
 
     const date = formatDate(metadata.date);
     dateEl.hidden = !date.iso;
