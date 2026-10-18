@@ -371,7 +371,12 @@ footer {
 		top: -.5rem;
 	}
 }
-
+#profile-pic {
+	border-radius: 50%;
+	box-shadow: 0 .1rem .6rem #0005;
+	border: 1px solid #fff7;
+	margin-top: 1rem;
+}
 /* Text pages (presentation.html): a readable column under a smaller logo. */
 .page {
 	/* Background sized to the viewport and stays put while the content scrolls. */
@@ -439,6 +444,12 @@ footer {
 		.heart {
 			font-size: 1.1em;
 		}
+	}
+}
+/* Narrow (portrait) screens: smaller text in the text pages. */
+@media (max-aspect-ratio: .8/1) {
+	.page article {
+		font-size: .8rem;
 	}
 }
 /* Article viewer (vision.html): sidebar list + markdown article + prev/next arrows.

@@ -6,7 +6,7 @@ Static site in French (fr-CA) for José Roux's contemplative coaching.
 
 ## Setup
 
-- No build step: `public/` is served as is. Vite is for dev only, on http://localhost:5010 (`vite.config.js`, run with a global vite: `npm run dev`). Firebase Hosting (`cleanUrls`) serves `/presentation` → `presentation.html`.
+- No build step: `public/` is served as is. Vite is for dev only, on http://localhost:5010, which is normally already running, so don't start it (`vite.config.js`, run with a global vite: `npm run dev`). Firebase Hosting (`cleanUrls`) serves `/presentation` → `presentation.html`.
 - Every push to `main` deploys to production (`.github/workflows/firebase-hosting-merge.yml`). The user commits straight to `main`. Commit or push only when asked.
 - No npm dependencies. Libraries come from a CDN with pinned versions (jsdelivr: `js-yaml@4.1.0`, `marked@16.4.2`). The Montserrat font comes from Google Fonts.
 - The previous version of the site lives in `~/Sync/code/lecoeurzen.com` (it used Alpine and a Node build). It's a reference only.
