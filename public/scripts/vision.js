@@ -71,6 +71,23 @@ function escapeHtml(value) {
     .replaceAll("'", '&#039;');
 }
 
+// `prose: true` in the frontmatter: capitalizes the first letter of each text line
+// (after any heading/quote/list marker), leaving fenced code alone.
+function capitalizeLines(markdown) {
+  let fenced = false;
+  return markdown
+    .split('\n')
+    .map((line) => {
+      if (/^\s*(```|~~~)/.test(line)) fenced = !fenced;
+      if (fenced) return line;
+      return line.replace(
+        /^((?:\s*(?:>|#{1,6}\s|[-*+]\s|\d+[.)]\s))*\s*)(\p{Ll})/u,
+        (_, prefix, c) => prefix + c.toLocaleUpperCase('fr-CA'),
+      );
+    })
+    .join('\n');
+}
+
 // From the old project's app.js; the frontmatter is optional here.
 function parseArticleSource(source) {
   if (!window.jsyaml || !window.marked) {
@@ -91,6 +108,8 @@ function parseArticleSource(source) {
     if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) metadata = parsed;
     markdown = match[2];
   }
+
+  if (metadata.prose === true) markdown = capitalizeLines(markdown);
 
   // A leading # heading becomes the page title instead of being rendered twice.
   const tokens = window.marked.lexer(markdown.trimStart());

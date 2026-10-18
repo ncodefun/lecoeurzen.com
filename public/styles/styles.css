@@ -557,6 +557,20 @@ footer {
 		opacity: .7;
 	}
 }
+/* Reusable arrow (images/arrow.svg, pointing right) tinted with the text color.
+   Use <span class='arrow-icon'></span>, add .left to flip it. */
+.arrow-icon {
+	display: inline-block;
+	width: 1.1em;
+	height: .83em;
+	flex: none;
+	vertical-align: -.08em;
+	background: currentColor;
+	mask: url('../images/arrow.svg') center / contain no-repeat;
+	&.left {
+		scale: -1 1;
+	}
+}
 #article-pager {
 	display: flex;
 	justify-content: space-between;
@@ -582,10 +596,6 @@ footer {
 		margin-left: auto;
 		text-align: right;
 	}
-	.pager-arrow {
-		font-size: 1.6em;
-		line-height: 1;
-	}
 }
 @media (min-aspect-ratio: 1.65/1) {
 	/* The article takes the centre column, so it stays centred on the page;
@@ -601,7 +611,7 @@ footer {
 		justify-self: end;
 		position: sticky;
 		top: 2rem;
-		width: 12em;
+		width: 16em;
 		margin-top: 2rem;
 	}
 	.vision article {
@@ -622,6 +632,11 @@ html[data-theme='dark'] {
 }
 
 /* Overrides the home page's footer circle. */
+#page-footer a {
+	display: inline-flex;
+	align-items: center;
+	gap: .4em;
+}
 #page-footer {
 	display: flex;
 	align-items: center;

@@ -16,7 +16,7 @@ Static site in French (fr-CA) for José Roux's contemplative coaching.
 - `index.html`: home page (logo, subtitle, footer circle with meditator/egg, presentation modal). Script: `scripts/app.js`.
 - `presentation.html`: long text page. Its FAQ is mirrored in the `FAQPage` JSON-LD in `<head>`, so keep both in sync.
 - `vision.html`: Markdown article viewer (`scripts/vision.js`).
-  - Articles are `public/articles/*.md`. Front matter is optional (`title`, `date`, `modified`). Dates are `YYYY-MM-DD`; `modified` shows as a tooltip on the date. A leading `# heading` becomes the page title.
+  - Articles are `public/articles/*.md`. Front matter is optional (`title`, `date`, `modified`, `prose`). Dates are `YYYY-MM-DD`; `modified` shows as a tooltip on the date. `prose: true` capitalizes the first letter of each text line at render time (after any `#`, `>`, list marker; code fences skipped). A leading `# heading` becomes the page title.
   - `frenchSpacing()` in `vision.js` adds the hair space before `! ? : ;` in rendered articles and sidebar titles, so `.md` files can be written without it (`Bonjour!`). It skips code and `10:30`-style colons. It also turns straight apostrophes into `’` and straight double quotes into `“…”` (single quotes are never treated as quotes). Guillemets are typed by hand in the `.md` (`«mot»`); the thin space inside is added.
   - `node prosify.mjs <file.md> [out.md]` (repo root) cleans a raw text: capitalizes each line, drops trailing commas, `...` → `…`.
   - The user keeps the sidebar list by hand: `<li><a data-file='name.md'>Title</a></li>`. Its order sets the prev/next arrows, and the URL is `vision.html#name`.
@@ -27,6 +27,7 @@ Static site in French (fr-CA) for José Roux's contemplative coaching.
 
 - HTML: tabs, single-quoted attributes. French typography: `&hairsp;` before `? ! : ;`, `&thinsp;` inside « guillemets ».
 - CSS: one global stylesheet with native nesting. The root font size follows the viewport height (`2.7dvh`), so layout breakpoints use `aspect-ratio`, not width. Dark mode is `html[data-theme='dark']`: the choice is saved in `localStorage` as `zen-theme`, which an inline `<head>` script reads before the page draws. Light/dark colors use `light-dark()`.
+- Arrows (pager, back links): `<span class='arrow-icon'></span>` (`.left` flips it). It's `images/arrow.svg` used as a CSS mask, so it takes the text color.
 - Keep the JS small and vanilla. Prefer plain HTML that the user can edit to generated content.
 
 ## When adding or renaming a page or article

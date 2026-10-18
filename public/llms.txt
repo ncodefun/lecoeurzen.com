@@ -15,6 +15,7 @@ Site en français (Québec).
 Textes de José, en Markdown brut (lisibles aussi sur https://lecoeurzen.com/vision).
 
 - [Exemple](https://lecoeurzen.com/articles/Faut-voir.md)
+- [Exemple](https://lecoeurzen.com/articles/Une-pensée-te-hante.md)
 - [Exemple](https://lecoeurzen.com/articles/exemple.md)
 
 
