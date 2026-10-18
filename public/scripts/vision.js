@@ -16,8 +16,19 @@ let loadController = null;
 
 // French typography: a hair space before ! ? : ; when the article has none
 // ("Bonjour!" → "Bonjour !"). : and ; only count when followed by a space or
-// the end of the text, so 10:30 and https:// are left alone. Code is skipped.
+// the end of the text, so 10:30 and https:// are left alone. Straight
+// apostrophes become typographic ones ("l'amour" → "l’amour"), and straight
+// double quotes become typographic ones (“like this”). A quote opens after
+// whitespace, ( or [ (or at the start), otherwise it closes. Code is skipped.
 const SPACE_BEFORE_PUNCTUATION = /([^\s?!:;])([?!]|[:;](?=\s|$))/g;
+const DOUBLE_QUOTE = /"/g;
+// Guillemets get a thin space inside when written tight ("«mot»" → "« mot »").
+const SPACE_AFTER_OPENING = /«(?=\S)/g;
+const SPACE_BEFORE_CLOSING = /(\S)»/g;
+
+function curlyQuote(quote, offset, text) {
+  return /[\s([]/.test(text[offset - 1]) ? '“' : '”';
+}
 const NO_SPACING_ELEMENTS = 'code, pre, kbd, samp';
 
 function frenchSpacing(html) {
@@ -29,7 +40,11 @@ function frenchSpacing(html) {
   for (let node = walker.nextNode(); node; node = walker.nextNode()) {
     if (!node.parentElement?.closest(NO_SPACING_ELEMENTS)) {
       node.data = (previousChar + node.data)
+        .replace(DOUBLE_QUOTE, curlyQuote)
+        .replace(SPACE_AFTER_OPENING, '« ')
+        .replace(SPACE_BEFORE_CLOSING, '$1 »')
         .replace(SPACE_BEFORE_PUNCTUATION, '$1\u200A$2')
+        .replaceAll("'", '\u2019')
         .slice(1);
     }
     previousChar = node.data.at(-1) ?? previousChar;
@@ -61,6 +76,8 @@ function parseArticleSource(source) {
   if (!window.jsyaml || !window.marked) {
     throw new Error('Markdown dependencies are unavailable.');
   }
+  // A single newline inside a paragraph becomes a <br>, so verses keep their lines.
+  window.marked.use({ breaks: true });
 
   const normalizedSource = source.replace(/^\uFEFF/, '');
   const match = normalizedSource.match(
@@ -157,6 +174,8 @@ async function showArticle(index) {
     dateEl.hidden = !date.iso;
     dateEl.dateTime = date.iso;
     dateEl.textContent = date.label;
+    const modified = formatDate(metadata.modified);
+    dateEl.title = modified.iso ? `Modifié le ${modified.label}` : '';
 
     content.innerHTML = article.content;
   } catch (error) {

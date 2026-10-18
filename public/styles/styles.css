@@ -515,10 +515,15 @@ footer {
 	#article-date {
 		font-size: .8em;
 		opacity: .7;
+		cursor: default;
+		transition: opacity .2s;
+		&:hover {
+			opacity: 1;
+		}
 	}
 	#article-content {
 		p + p {
-			margin-top: .8em;
+			margin-top: 1lh;
 		}
 		h2:first-child {
 			margin-top: 0;

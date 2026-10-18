@@ -16,8 +16,9 @@ Static site in French (fr-CA) for José Roux's contemplative coaching.
 - `index.html`: home page (logo, subtitle, footer circle with meditator/egg, presentation modal). Script: `scripts/app.js`.
 - `presentation.html`: long text page. Its FAQ is mirrored in the `FAQPage` JSON-LD in `<head>`, so keep both in sync.
 - `vision.html`: Markdown article viewer (`scripts/vision.js`).
-  - Articles are `public/articles/*.md`. Front matter is optional (`title`, `date`). A leading `# heading` becomes the page title.
-  - `frenchSpacing()` in `vision.js` adds the hair space before `! ? : ;` in rendered articles and sidebar titles, so `.md` files can be written without it (`Bonjour!`). It skips code and `10:30`-style colons.
+  - Articles are `public/articles/*.md`. Front matter is optional (`title`, `date`, `modified`). Dates are `YYYY-MM-DD`; `modified` shows as a tooltip on the date. A leading `# heading` becomes the page title.
+  - `frenchSpacing()` in `vision.js` adds the hair space before `! ? : ;` in rendered articles and sidebar titles, so `.md` files can be written without it (`Bonjour!`). It skips code and `10:30`-style colons. It also turns straight apostrophes into `’` and straight double quotes into `“…”` (single quotes are never treated as quotes). Guillemets are typed by hand in the `.md` (`«mot»`); the thin space inside is added.
+  - `node prosify.mjs <file.md> [out.md]` (repo root) cleans a raw text: capitalizes each line, drops trailing commas, `...` → `…`.
   - The user keeps the sidebar list by hand: `<li><a data-file='name.md'>Title</a></li>`. Its order sets the prev/next arrows, and the URL is `vision.html#name`.
   - Only `/vision` (the first article) can be indexed by Google. Articles reach AI tools through `llms.txt`.
 - Every page uses `styles/styles.css` and `scripts/theme.js`. The `<head>` boilerplate (favicons, OG tags, inline theme script) is copied page to page. Use `presentation.html` as the template for a new text page (`<body class='page'>`).
