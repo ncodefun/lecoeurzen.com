@@ -375,12 +375,14 @@ footer {
 	box-shadow: 0 .1rem .6rem #0005;
 	border: 1px solid #fff7;
 	margin-top: 1rem;
+	filter: saturate(.88) contrast(.88);
 }
 #vision-link {
 	display: flex;
 	align-items: baseline;
 	justify-content: start;
 	gap: 2rem;
+	
 }
 /* Text pages (presentation.html): a readable column under a smaller logo. */
 .page {
@@ -451,11 +453,11 @@ footer {
 	}
 }
 /* Narrow (portrait) screens: smaller text in the text pages. */
-/* @media (max-aspect-ratio: .8/1) {
+@media (max-aspect-ratio: .8/1) {
 	.page article {
-		font-size: .8rem;
+		font-size: .76em;
 	}
-} */
+}
 /* Article viewer (vision.html): sidebar list + markdown article + prev/next arrows.
    The root font scales with the viewport height, so the two-column layout
    switches on aspect ratio rather than width. */
