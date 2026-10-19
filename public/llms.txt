@@ -8,16 +8,6 @@ Site en français (Québec).
 
 - [Accueil](https://lecoeurzen.com/)
 - [L'expérience directe – présentation, parcours de José et questions fréquentes](https://lecoeurzen.com/presentation)
-- [Vision – textes et réflexions de José](https://lecoeurzen.com/vision)
-
-## Articles
-
-Textes de José, en Markdown brut (lisibles aussi sur https://lecoeurzen.com/vision).
-
-- [Exemple](https://lecoeurzen.com/articles/Faut-voir.md)
-- [Exemple](https://lecoeurzen.com/articles/Une-pensée-te-hante.md)
-- [Exemple](https://lecoeurzen.com/articles/exemple.md)
-
 
 ## L'expérience directe
 

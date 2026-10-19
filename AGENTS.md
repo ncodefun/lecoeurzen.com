@@ -20,7 +20,7 @@ Static site in French (fr-CA) for José Roux's contemplative coaching.
   - `frenchSpacing()` in `vision.js` adds the hair space before `! ? : ;` in rendered articles and sidebar titles, so `.md` files can be written without it (`Bonjour!`). It skips code and `10:30`-style colons. It also turns straight apostrophes into `’` and straight double quotes into `“…”` (single quotes are never treated as quotes). Guillemets are typed by hand in the `.md` (`«mot»`); the thin space inside is added.
   - `node prosify.mjs <file.md> [out.md]` (repo root) cleans a raw text: capitalizes each line, drops trailing commas, `...` → `…`.
   - The user keeps the sidebar list by hand: `<li><a data-file='name.md'>Title</a></li>`. Its order sets the prev/next arrows, and the URL is `vision.html#name`.
-  - Only `/vision` (the first article) can be indexed by Google. Articles reach AI tools through `llms.txt`.
+  - Vision is hidden for now: `vision.html` is `noindex`, `firebase.json` sends `X-Robots-Tag: noindex` for `/vision` and `/articles/**`, and it's absent from `sitemap.xml`, `llms.txt` and `presentation.html` (link commented out). To publish it, undo those.
 - Every page uses `styles/styles.css` and `scripts/theme.js`. The `<head>` boilerplate (favicons, OG tags, inline theme script) is copied page to page. Use `presentation.html` as the template for a new text page (`<body class='page'>`).
 
 ## Conventions

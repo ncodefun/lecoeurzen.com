@@ -2,7 +2,7 @@
 	box-sizing: border-box;
 }
 html {
-	font: 2.7dvh/1.5 Montserrat, sans-serif;
+	font: 2.7vh/1.5 Montserrat, sans-serif;
 	color:hsl(191, 21%, 25%);
 	background: light-dark(#c9c9c9, #333);
 	color-scheme: light;
@@ -11,9 +11,9 @@ html {
 html[data-theme='dark'] {
 	color-scheme: dark;
 }
-@media (max-aspect-ratio: 0.4/1) {
+@media (max-aspect-ratio: 0.5/1) {
 	html {
-		font-size: calc(2.7vw * (1 / 0.4));
+		font-size: calc(2.7vw * (1 / 0.5));
 	}
 }
 @media (max-aspect-ratio: .8/1) {
@@ -37,7 +37,6 @@ main {
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
-	min-height: 100vh;
 	min-height: 100dvh;
 	overflow: clip;
 }
@@ -399,7 +398,6 @@ footer {
 	article {
 		width: min(34em, 100% - 32px);
 		margin: 2rem auto 0;
-		/* font-size: .8rem; */
 		line-height: 1.6;
 		text-align: left;
 	}
@@ -453,11 +451,11 @@ footer {
 	}
 }
 /* Narrow (portrait) screens: smaller text in the text pages. */
-@media (max-aspect-ratio: .8/1) {
+/* @media (max-aspect-ratio: .8/1) {
 	.page article {
 		font-size: .8rem;
 	}
-}
+} */
 /* Article viewer (vision.html): sidebar list + markdown article + prev/next arrows.
    The root font scales with the viewport height, so the two-column layout
    switches on aspect ratio rather than width. */

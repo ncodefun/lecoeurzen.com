@@ -9,6 +9,12 @@
     ],
     "headers": [
       {
+        "source": "{vision,vision.html,articles/**}",
+        "headers": [
+          { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+        ]
+      },
+      {
         "source": "**/*.@(js|css|html|json)",
         "headers": [
           {
