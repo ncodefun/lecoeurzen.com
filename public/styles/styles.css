@@ -251,7 +251,7 @@ footer {
 }
 
 
-#question-mark {
+#heart-center {
 	display: grid;
 	place-items: center;
 	width: 7rem;
@@ -747,7 +747,7 @@ html[data-theme='dark'] {
 		filter: brightness(1) contrast(1) sepia(.5) drop-shadow(rgb(255, 255, 255) 2px 4px 11px);
 		opacity: .76;
 	}
-	#egg:hover ~ #question-mark {
+	#egg:hover ~ #heart-center {
 		opacity: .9;
 		scale: 1;
 	}
