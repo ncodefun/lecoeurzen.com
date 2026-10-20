@@ -6,22 +6,17 @@ Static site in French (fr-CA) for José Roux's contemplative coaching.
 
 ## Setup
 
-- No build step: `public/` is served as is. Vite is for dev only, on http://localhost:5010, which is normally already running, so don't start it (`vite.config.js`, run with a global vite: `npm run dev`). Firebase Hosting (`cleanUrls`) serves `/presentation` → `presentation.html`.
+- No build step: `public/` is served as is. Vite is for dev only, on http://localhost:5010, which is normally already running, so don't start it (`vite.config.js`, run with a global vite: `npm run dev`). Firebase Hosting (`cleanUrls`) serves `/name` → `name.html`.
 - Every push to `main` deploys to production (`.github/workflows/firebase-hosting-merge.yml`). The user commits straight to `main`. Commit or push only when asked.
-- No npm dependencies. Libraries come from a CDN with pinned versions (jsdelivr: `js-yaml@4.1.0`, `marked@16.4.2`). The Montserrat font comes from Google Fonts.
+- No npm dependencies. Libraries come from a CDN with pinned versions (jsdelivr: `js-yaml@4.1.0`, `marked@16.4.2`, used by the retired Vision page). The Montserrat font comes from Google Fonts.
 - The previous version of the site lives in `~/Sync/code/lecoeurzen.com` (it used Alpine and a Node build). It's a reference only.
 
 ## Pages
 
-- `index.html`: home page (logo, subtitle, footer circle with meditator/egg, presentation modal). Script: `scripts/app.js`.
-- `presentation.html`: long text page. Its FAQ is mirrored in the `FAQPage` JSON-LD in `<head>`, so keep both in sync.
-- `vision.html`: Markdown article viewer (`scripts/vision.js`).
-  - Articles are `public/articles/*.md`. Front matter is optional (`title`, `date`, `modified`, `prose`). Dates are `YYYY-MM-DD`; `modified` shows as a tooltip on the date. `prose: true` capitalizes the first letter of each text line at render time (after any `#`, `>`, list marker; code fences skipped). A leading `# heading` becomes the page title.
-  - `frenchSpacing()` in `vision.js` adds the hair space before `! ? : ;` in rendered articles and sidebar titles, so `.md` files can be written without it (`Bonjour!`). It skips code and `10:30`-style colons. It also turns straight apostrophes into `’` and straight double quotes into `“…”` (single quotes are never treated as quotes). Guillemets are typed by hand in the `.md` (`«mot»`); the thin space inside is added.
-  - `node prosify.mjs <file.md> [out.md]` (repo root) cleans a raw text: capitalizes each line, drops trailing commas, `...` → `…`.
-  - The user keeps the sidebar list by hand: `<li><a data-file='name.md'>Title</a></li>`. Its order sets the prev/next arrows, and the URL is `vision.html#name`.
-  - Vision is hidden for now: `vision.html` is `noindex`, `firebase.json` sends `X-Robots-Tag: noindex` for `/vision` and `/articles/**`, and it's absent from `sitemap.xml`, `llms.txt` and `presentation.html` (link commented out). To publish it, undo those.
-- Every page uses `styles/styles.css` and `scripts/theme.js`. The `<head>` boilerplate (favicons, OG tags, inline theme script) is copied page to page. Use `presentation.html` as the template for a new text page (`<body class='page'>`).
+- `index.html` is the only page: logo, subtitle (no longer a link), footer circle with meditator/egg, presentation modal. Script: `scripts/app.js`. Its meta/OG description and the `WebSite` JSON-LD description share the same text; keep them in sync with `llms.txt` and `site.webmanifest`.
+- `aside/` holds retired pages, kept for reference and not served: `presentation.html` (long text + FAQ), `vision.html` + `scripts/vision.js` + `articles/*.md` (Markdown article viewer, see git history for its conventions). Their CSS (`.page`, `.vision`, `#vision-layout`) is still in `styles.css`. To bring one back, move it into `public/` (restoring script/article paths) and follow the checklist below; `firebase.json` still sends `X-Robots-Tag: noindex` for `/vision` and `/articles/**`.
+- `node prosify.mjs <file.md> [out.md]` (repo root) cleans a raw text: capitalizes each line, drops trailing commas, `...` → `…`.
+- Every page uses `styles/styles.css` and `scripts/theme.js`. The `<head>` boilerplate (favicons, OG tags, inline theme script) is copied page to page. Use `aside/presentation.html` as the template for a new text page (`<body class='page'>`).
 
 ## Conventions
 
