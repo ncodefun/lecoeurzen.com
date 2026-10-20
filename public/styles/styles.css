@@ -43,6 +43,9 @@ main {
 p {
 	margin: 0;
 }
+b {
+	font-weight: 550;
+}
 /* Images are sized by height in CSS; their width/height attributes only
    reserve the aspect ratio before they load. */
 img {
